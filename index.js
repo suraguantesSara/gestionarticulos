@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios'); // Librería para hacer solicitudes HTTP
+const path = require('path'); // Módulo para manejar rutas de archivos
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,9 +10,12 @@ const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycby0jsj-E9qiug
 app.use(cors());
 app.use(express.json()); // Permitir recibir JSON desde el frontend
 
-// Ruta de prueba
+// Servir archivos estáticos desde la carpeta "public"
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Ruta raíz que carga "index.html"
 app.get('/', (req, res) => {
-    res.send('Servidor funcionando correctamente 🚀');
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Ruta para enviar datos a Google Sheets
@@ -28,3 +32,4 @@ app.post('/registrar', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
 });
+
