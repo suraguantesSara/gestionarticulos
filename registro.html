@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Pedido</title>
+    <link rel="stylesheet" href="registro.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📝 Registrar Pedido</h1>
+
+        <form id="pedidoForm">
+            <label for="remision">Número de Remisión:</label>
+            <input type="text" id="remision" required>
+
+            <label for="articulo">Artículo:</label>
+            <select id="articulo" required>
+                <option value="gorros">Gorros</option>
+                <option value="bordados">Bordados</option>
+                <option value="camisas">Camisas</option>
+                <option value="prelavado">Prelavado</option>
+                <option value="camibusos">Camibusos</option>
+            </select>
+
+            <label for="taller">Nombre del Taller:</label>
+            <select id="taller" required>
+                <option value="segundo">Segundo</option>
+                <option value="yolanda">Yolanda</option>
+                <option value="yanelandia">Yanelandia</option>
+                <option value="rosahilda">Rosahilda</option>
+                <option value="erika">Erika</option>
+                <option value="mirian">Mirian</option>
+                <option value="jhon">Jhon</option>
+                <option value="kelly">Kelly</option>
+                <option value="angelica">Angelica</option>
+                <option value="carmen">Carmen</option>
+                <option value="fernando">Fernando</option>
+                <option value="juan">Juan</option>
+            </select>
+
+            <label for="fecha_despacho">Fecha de Despacho:</label>
+            <input type="date" id="fecha_despacho" required>
+
+            <label for="cantidad_despachar">Cantidad a Despachar:</label>
+            <input type="number" id="cantidad_despachar" required>
+
+            <label for="referencia">Referencia (Opcional):</label>
+            <input type="text" id="referencia">
+
+            <h2>📆 Entrega Parcial (Máximo 5)</h2>
+            <div id="entregasParciales"></div>
+            <button type="button" onclick="agregarEntregaParcial()">➕ Agregar Entrega Parcial</button>
+
+            <button type="submit">📌 Guardar Pedido</button>
+        </form>
+
+    </div>
+
+    <script src="registro.js"></script>
+</body>
+
+</html>
