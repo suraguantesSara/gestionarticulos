@@ -1,14 +1,12 @@
-# Usamos PHP con Apache
-FROM php:8.1-apache
 
-# Configuración del directorio de trabajo
-WORKDIR /var/www/html
+FROM node:18
 
-# Copiamos todo el código de nuestro proyecto
+WORKDIR /app
+
 COPY . .
 
-# Exponemos el puerto que usará el servidor
-EXPOSE 80
+RUN npm install
 
-# Arrancamos Apache
-CMD ["apache2-foreground"]
+EXPOSE 3000
+
+CMD ["npm", "start"]
