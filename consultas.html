@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Pedidos</title>
+    <link rel="stylesheet" href="consultas.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>📊 Consulta de Pedidos</h1>
+
+        <form id="consultaForm">
+            <label for="filtro">Seleccionar filtro de búsqueda:</label>
+            <select id="filtro">
+                <option value="remision">Número de Remisión</option>
+                <option value="articulo">Artículo</option>
+                <option value="taller">Taller</option>
+                <option value="fecha">Fecha de Despacho</option>
+            </select>
+
+            <input type="text" id="valorFiltro" placeholder="Ingrese el valor del filtro">
+            <button type="button" onclick="buscarPedidos()">🔍 Buscar</button>
+        </form>
+
+        <h2>Resultado de la Consulta</h2>
+        <table id="tablaResultados">
+            <thead>
+                <tr>
+                    <th>Remisión</th>
+                    <th>Artículo</th>
+                    <th>Taller</th>
+                    <th>Fecha de Despacho</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se mostrarán los resultados dinámicamente -->
+            </tbody>
+        </table>
+
+        <h2>📝 Generar Informe</h2>
+        <label for="nombreGenerador">Nombre del Generador:</label>
+        <input type="text" id="nombreGenerador" placeholder="Ingrese su nombre">
+
+        <label for="fechaInforme">Fecha del Informe:</label>
+        <input type="date" id="fechaInforme">
+
+        <button onclick="descargarInforme()">📥 Descargar Informe</button>
+    </div>
+
+    <script src="consultas.js"></script>
+</body>
+
+</html>
