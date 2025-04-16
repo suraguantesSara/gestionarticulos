@@ -35,6 +35,7 @@ app.post("/registrar", async (req, res) => {
         res.status(500).json({ mensaje: "❌ Error al registrar el pedido", error: error.toString() });
     }
 });
+app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
