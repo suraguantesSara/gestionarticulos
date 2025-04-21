@@ -48,23 +48,25 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("📌 Botón presionado, preparando datos...");
 
             // Obtener valores del formulario
-            const remision = document.getElementById("remision")?.value || "";
-            const articulo = document.getElementById("articulo")?.value || "";
-            const taller = document.getElementById("taller")?.value || "";
-            const fecha_despacho = document.getElementById("fecha_despacho")?.value || "";
-            const cantidad = document.getElementById("cantidad")?.value || "";
-            const referencia = document.getElementById("referencia")?.value || "";
+            const remision = document.getElementById("remision")?.value.trim() || "";
+            const articulo = document.getElementById("articulo")?.value.trim() || "";
+            const taller = document.getElementById("taller")?.value.trim() || "";
+            const fecha_despacho = document.getElementById("fecha_despacho")?.value.trim() || "";
+            const cantidad = document.getElementById("cantidad")?.value.trim() || "";
+            const referencia = document.getElementById("referencia")?.value.trim() || "";
 
+            // Verificar si algún campo está vacío
             if (!remision || !articulo || !taller || !fecha_despacho || !cantidad || !referencia) {
-                alert("❌ Todos los campos son obligatorios.");
+                console.error("❌ Error: Faltan campos obligatorios.");
+                alert("❌ Todos los campos son obligatorios. Verifica que estén correctamente llenos.");
                 return;
             }
 
             // Obtener datos de entregas parciales
             let entregas_parciales = [];
             document.querySelectorAll(".entrega-parcial").forEach((div) => {
-                const fecha_parcial = div.querySelector("input[type='date']").value;
-                const cantidad_parcial = div.querySelector("input[type='number']").value;
+                const fecha_parcial = div.querySelector("input[type='date']").value.trim();
+                const cantidad_parcial = div.querySelector("input[type='number']").value.trim();
                 if (fecha_parcial && cantidad_parcial) {
                     entregas_parciales.push({ fecha: fecha_parcial, cantidad: cantidad_parcial });
                 }
@@ -93,4 +95,3 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("❌ Error: No se encontró el botón 'guardarPedido'");
     }
 });
-
