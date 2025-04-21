@@ -1,34 +1,36 @@
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("pedidoForm").addEventListener("submit", async (event) => {
-        event.preventDefault();
+let entregaContador = 0; // Contador para las entregas parciales
+const maxEntregas = 5; // Límite de entregas parciales
 
-        const pedido = {
-            remision: document.getElementById("remision").value.trim(),
-            articulo: document.getElementById("articulo").value.trim(),
-            taller: document.getElementById("taller").value.trim(),
-            fecha_despacho: document.getElementById("fecha_despacho").value.trim(),
-            cantidad: document.getElementById("cantidad_despachar").value.trim(),
-            referencia: document.getElementById("referencia").value.trim(),
-        };
+function agregarEntregaParcial() {
+    if (entregaContador < maxEntregas) {
+        entregaContador++;
 
-        console.log("📌 Enviando pedido:", pedido); // Verificar datos antes de enviarlos
+        let container = document.getElementById("entregasParciales");
 
-        try {
-            const response = await fetch("https://script.google.com/macros/s/TU_URL_DE_APPS_SCRIPT/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(pedido),
-            });
+        let div = document.createElement("div");
+        div.classList.add("entrega-parcial");
+        div.id = `entrega-${entregaContador}`;
 
-            if (!response.ok) {
-                throw new Error(`❌ Error HTTP: ${response.status}`);
-            }
+        div.innerHTML = `
+            <label for="fecha_parcial_${entregaContador}">Fecha Parcial ${entregaContador}:</label>
+            <input type="date" id="fecha_parcial_${entregaContador}" required>
 
-            alert("✅ Pedido registrado exitosamente.");
-            document.getElementById("pedidoForm").reset();
-        } catch (error) {
-            alert("❌ Hubo un error al registrar el pedido.");
-            console.error("❌ Error en la solicitud:", error);
-        }
-    });
-});
+            <label for="cantidad_parcial_${entregaContador}">Cantidad Entregada:</label>
+            <input type="number" id="cantidad_parcial_${entregaContador}" required>
+
+            <button type="button" onclick="eliminarEntrega(${entregaContador})">❌ Eliminar</button>
+        `;
+
+        container.appendChild(div);
+    } else {
+        alert("Solo puedes agregar hasta 5 entregas parciales.");
+    }
+}
+
+function eliminarEntrega(id) {
+    let entrega = document.getElementById(`entrega-${id}`);
+    if (entrega) {
+        entrega.remove();
+        entregaContador--;
+    }
+}
