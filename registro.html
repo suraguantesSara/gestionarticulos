@@ -13,12 +13,12 @@
     <div class="container">
         <h1>📝 Registrar Pedido</h1>
 
-        <form id="pedidoForm" action="registro.php" method="POST">
+        <form id="pedidoForm">
             <label for="remision">Número de Remisión:</label>
-            <input type="text" name="remision" required>
+            <input type="text" id="remision" required>
 
             <label for="articulo">Artículo:</label>
-            <select name="articulo" required>
+            <select id="articulo" required>
                 <option value="gorros">Gorros</option>
                 <option value="bordados">Bordados</option>
                 <option value="camisas">Camisas</option>
@@ -27,7 +27,7 @@
             </select>
 
             <label for="taller">Nombre del Taller:</label>
-            <select name="taller" required>
+            <select id="taller" required>
                 <option value="segundo">Segundo</option>
                 <option value="yolanda">Yolanda</option>
                 <option value="yanelandia">Yanelandia</option>
@@ -43,16 +43,22 @@
             </select>
 
             <label for="fecha_despacho">Fecha de Despacho:</label>
-            <input type="date" name="fecha_despacho" required>
+            <input type="date" id="fecha_despacho" required>
 
-            <label for="cantidad">Cantidad a Despachar:</label>
-            <input type="number" name="cantidad" required>
+            <label for="cantidad_despachar">Cantidad a Despachar:</label>
+            <input type="number" id="cantidad_despachar" required>
 
             <label for="referencia">Referencia (Opcional):</label>
-            <input type="text" name="referencia">
+            <input type="text" id="referencia">
 
-            <button type="submit">Guardar Pedido</button>
-        </form>
+            <h2>📆 Entrega Parcial (Máximo 5)</h2>
+            <div id="entregasParciales"></div>
+            <button type="button" onclick="agregarEntregaParcial()">➕ Agregar Entrega Parcial</button>
+
+           <form id="pedidoForm" action="/registro.php" method="POST">
+               <button type="submit">📌 Guardar Pedido</button>
+           </form>
+        
 
     </div>
 
