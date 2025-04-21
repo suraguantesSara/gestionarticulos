@@ -5,7 +5,7 @@ const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 10000;
-const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxGV6KghytWysjqttmwiOYKlerOYXa5IoZewtQIm0kThHp5mpcm5QubE05WYhH70al8_Q/exec";
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwjRbxJWNrfT9ocegaVtLvLUeHwDcKkJhHZ-tTeyNXjRLyJPq2YyfwPBl-QUyijcMKVRg/exec";
 
 app.use(cors());
 app.use(express.json());
