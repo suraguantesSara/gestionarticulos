@@ -39,26 +39,67 @@ function eliminarEntrega(id) {
 //envio de datos a dormulario (funcion guardar datos)
 
 document.addEventListener("DOMContentLoaded", () => {
-    const botonGuardar = document.getElementById("guardarPedido");
+    let entregaContador = 0; // Contador para las entregas parciales
+    const maxEntregas = 5; // Límite de entregas parciales
 
-    if (botonGuardar) {
-        botonGuardar.addEventListener("click", async (event) => {
-            event.preventDefault(); // Evita que el formulario se recargue
+    function agregarEntregaParcial() {
+        if (entregaContador < maxEntregas) {
+            entregaContador++;
+
+            let container = document.getElementById("entregasParciales");
+
+            let div = document.createElement("div");
+            div.classList.add("entrega-parcial");
+            div.id = `entrega-${entregaContador}`;
+
+            div.innerHTML = `
+                <label for="fecha_parcial_${entregaContador}">Fecha Parcial ${entregaContador}:</label>
+                <input type="date" id="fecha_parcial_${entregaContador}" required>
+
+                <label for="cantidad_parcial_${entregaContador}">Cantidad Entregada:</label>
+                <input type="number" id="cantidad_parcial_${entregaContador}" required>
+
+                <button type="button" onclick="eliminarEntrega(${entregaContador})">❌ Eliminar</button>
+            `;
+
+            container.appendChild(div);
+        } else {
+            alert("Solo puedes agregar hasta 5 entregas parciales.");
+        }
+    }
+
+    function eliminarEntrega(id) {
+        let entrega = document.getElementById(`entrega-${id}`);
+        if (entrega) {
+            entrega.remove();
+            entregaContador--;
+        }
+    }
+
+    // 📌 Función para obtener valores seguros del formulario
+    const getValue = (id) => {
+        const element = document.getElementById(id);
+        return element ? element.value.trim() : "";
+    };
+
+    // 📌 Capturar el evento de envío del formulario
+    const formulario = document.getElementById("pedidoForm");
+    if (formulario) {
+        formulario.addEventListener("submit", async (event) => {
+            event.preventDefault(); // Evita la recarga del formulario
 
             console.log("📌 Botón presionado, preparando datos...");
 
             // Obtener valores del formulario
-            const remision = document.getElementById("remision")?.value.trim() || "";
-            const articulo = document.getElementById("articulo")?.value.trim() || "";
-            const taller = document.getElementById("taller")?.value.trim() || "";
-            const fecha_despacho = document.getElementById("fecha_despacho")?.value.trim() || "";
-            const cantidad = document.getElementById("cantidad")?.value.trim() || "";
-            const referencia = document.getElementById("referencia")?.value.trim() || "";
+            const remision = getValue("remision");
+            const articulo = getValue("articulo");
+            const taller = getValue("taller");
+            const fecha_despacho = getValue("fecha_despacho");
+            const cantidad = getValue("cantidad");
+            const referencia = getValue("referencia");
 
-            // Verificar si algún campo está vacío
-            if (!remision || !articulo || !taller || !fecha_despacho || !cantidad || !referencia) {
-                console.error("❌ Error: Faltan campos obligatorios.");
-                alert("❌ Todos los campos son obligatorios. Verifica que estén correctamente llenos.");
+            if (!remision || !articulo || !taller || !fecha_despacho || !cantidad) {
+                alert("❌ Todos los campos obligatorios deben estar llenos.");
                 return;
             }
 
@@ -75,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Crear objeto con los datos
             const pedido = { remision, articulo, taller, fecha_despacho, cantidad, referencia, entregas_parciales };
 
-            console.log("📌 Datos que se enviarán:", pedido); // Para depuración
+            console.log("📌 Datos que se enviarán:", pedido);
 
             try {
                 const response = await fetch("https://script.google.com/macros/s/AKfycbwzrSazpxO6cc0zXn2wLyKMaFX_frrUaA3WisM416FxLAWwM-WYcEPGKwV2AFNWMZc2xw/exec", {
@@ -86,12 +127,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const data = await response.json();
                 alert(data.mensaje || "✅ Pedido guardado correctamente.");
+                formulario.reset(); // Limpiar el formulario después de un registro exitoso
             } catch (error) {
                 console.error("❌ Error en la conexión:", error);
                 alert("❌ Hubo un error al registrar el pedido.");
             }
         });
     } else {
-        console.error("❌ Error: No se encontró el botón 'guardarPedido'");
+        console.error("❌ Error: No se encontró el formulario 'pedidoForm'");
     }
 });
