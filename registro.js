@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         try {
-            const response = await fetch("https://script.google.com/macros/s/TU_URL_DE_APPS_SCRIPT/exec", {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbyQqqydA8Hqo0O-Cy9zluRtHih-th_HZej_7i9jEgayW0x3G80pcdF9HA6OaQxlTHXf/exec", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(pedido),
