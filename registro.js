@@ -104,6 +104,31 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Obtener datos de entregas parciales
+           document.addEventListener("DOMContentLoaded", () => {
+    const formulario = document.getElementById("pedidoForm");
+
+    if (formulario) {
+        formulario.addEventListener("submit", async (event) => {
+            event.preventDefault(); // Evita la recarga del formulario
+
+            console.log("📌 Botón presionado, preparando datos...");
+
+            // 📌 Obtener valores del formulario
+            const getValue = (id) => document.getElementById(id)?.value.trim() || "";
+
+            const remision = getValue("remision");
+            const articulo = getValue("articulo");
+            const taller = getValue("taller");
+            const fecha_despacho = getValue("fecha_despacho");
+            const cantidad = getValue("cantidad");
+            const referencia = getValue("referencia");
+
+            if (!remision || !articulo || !taller || !fecha_despacho || !cantidad) {
+                alert("❌ Todos los campos obligatorios deben estar llenos.");
+                return;
+            }
+
+            // 📌 Capturar entregas parciales
             let entregas_parciales = [];
             document.querySelectorAll(".entrega-parcial").forEach((div) => {
                 const fecha_parcial = div.querySelector("input[type='date']").value.trim();
@@ -113,23 +138,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // Crear objeto con los datos
+            // 📌 Crear objeto con los datos del pedido
             const pedido = { remision, articulo, taller, fecha_despacho, cantidad, referencia, entregas_parciales };
 
             console.log("📌 Datos que se enviarán:", pedido);
 
             try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbwQoJRJwlV1KhnTipbungmKUHvLmvtNxxwJa0IgxwwjYNt7q0ZJabwtzH62QOn0ilDP/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    mode: "no-cors", // Fuerza la solicitud sin verificar CORS
-    body: JSON.stringify(pedido),
-});
-                
+                const response = await fetch("https://script.google.com/macros/s/AKfycbxxewslukjEuDUbVQ49j1l5Pg8lwsXiT2U5qqk9nkye4yrvP3-CtVC8Ff5pU375LkWA/exec", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(pedido),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`❌ Error HTTP: ${response.status}`);
+                }
 
                 const data = await response.json();
                 alert(data.mensaje || "✅ Pedido guardado correctamente.");
-                formulario.reset(); // Limpiar el formulario después de un registro exitoso
+                formulario.reset(); // 📌 Limpiar el formulario tras éxito
             } catch (error) {
                 console.error("❌ Error en la conexión:", error);
                 alert("❌ Hubo un error al registrar el pedido.");
