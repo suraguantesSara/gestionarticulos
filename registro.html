@@ -13,12 +13,12 @@
     <div class="container">
         <h1>📝 Registrar Pedido</h1>
 
-        <form id="pedidoForm">
+        <form id="pedidoForm" action="procesar.php" method="POST">
             <label for="remision">Número de Remisión:</label>
-            <input type="text" id="remision" required>
+            <input type="text" id="remision" name="remision" required>
 
             <label for="articulo">Artículo:</label>
-            <select id="articulo" required>
+            <select id="articulo" name="articulo" required>
                 <option value="gorros">Gorros</option>
                 <option value="bordados">Bordados</option>
                 <option value="camisas">Camisas</option>
@@ -27,7 +27,7 @@
             </select>
 
             <label for="taller">Nombre del Taller:</label>
-            <select id="taller" required>
+            <select id="taller" name="taller" required>
                 <option value="segundo">Segundo</option>
                 <option value="yolanda">Yolanda</option>
                 <option value="yanelandia">Yanelandia</option>
@@ -43,21 +43,20 @@
             </select>
 
             <label for="fecha_despacho">Fecha de Despacho:</label>
-            <input type="date" id="fecha_despacho" required>
+            <input type="date" id="fecha_despacho" name="fecha_despacho" required>
 
             <label for="cantidad_despachar">Cantidad a Despachar:</label>
-            <input type="number" id="cantidad_despachar" required>
+            <input type="number" id="cantidad_despachar" name="cantidad_despachar" required>
 
             <label for="referencia">Referencia (Opcional):</label>
-            <input type="text" id="referencia">
+            <input type="text" id="referencia" name="referencia">
 
             <h2>📆 Entrega Parcial (Máximo 5)</h2>
             <div id="entregasParciales"></div>
             <button type="button" onclick="agregarEntregaParcial()">➕ Agregar Entrega Parcial</button>
 
-             <button type="submit">📌 Guardar Pedido</button>
-           </form>
-        
+            <button type="submit">📌 Guardar Pedido</button>
+        </form>
 
     </div>
 
@@ -65,4 +64,3 @@
 </body>
 
 </html>
-    
