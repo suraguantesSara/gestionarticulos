@@ -76,4 +76,21 @@ document.getElementById("guardarPedido").addEventListener("click", async (event)
         console.error("❌ Error en la conexión:", error);
         alert("❌ Hubo un error al registrar el pedido.");
     }
+
+    fetch("https://gestionarticulos-a8xs.onrender.com/registrar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        remision: "TEST123",
+        articulo: "Ejemplo",
+        taller: "Taller 1",
+        fecha_despacho: "2025-04-16",
+        cantidad: 10,
+        referencia: "ABC123"
+    })
+})
+.then(res => res.json())
+.then(data => console.log("📌 Respuesta del servidor:", data))
+.catch(error => console.error("❌ Error en la conexión:", error));
+    
 });
