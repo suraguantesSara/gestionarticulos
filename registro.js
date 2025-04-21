@@ -120,10 +120,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 const response = await fetch("https://script.google.com/macros/s/AKfycbwQoJRJwlV1KhnTipbungmKUHvLmvtNxxwJa0IgxwwjYNt7q0ZJabwtzH62QOn0ilDP/exec", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(pedido),
-                });
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    mode: "no-cors", // Fuerza la solicitud sin verificar CORS
+    body: JSON.stringify(pedido),
+});
+                
 
                 const data = await response.json();
                 alert(data.mensaje || "✅ Pedido guardado correctamente.");
