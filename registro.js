@@ -1,5 +1,5 @@
-let entregaContador = 0; // Contador para las entregas parciales
-const maxEntregas = 5; // Límite de entregas parciales
+let entregaContador = 0; 
+const maxEntregas = 5; 
 
 function agregarEntregaParcial() {
     if (entregaContador < maxEntregas) {
@@ -35,8 +35,10 @@ function eliminarEntrega(id) {
     }
 }
 
-// 📌 Función para enviar los datos al backend (index.js)
-document.getElementById("guardarPedido").addEventListener("click", async () => {
+
+document.getElementById("guardarPedido").addEventListener("click", async (event) => {
+    event.preventDefault(); // Evita que el formulario se recargue
+
     // Obtener valores del formulario
     const remision = document.getElementById("remision").value;
     const articulo = document.getElementById("articulo").value;
@@ -47,9 +49,9 @@ document.getElementById("guardarPedido").addEventListener("click", async () => {
 
     // Obtener datos de entregas parciales
     let entregas_parciales = [];
-    document.querySelectorAll(".entrega-parcial").forEach((div, index) => {
-        const fecha_parcial = div.querySelector(`#fecha_parcial_${index + 1}`).value;
-        const cantidad_parcial = div.querySelector(`#cantidad_parcial_${index + 1}`).value;
+    document.querySelectorAll(".entrega-parcial").forEach((div) => {
+        const fecha_parcial = div.querySelector("input[type='date']").value;
+        const cantidad_parcial = div.querySelector("input[type='number']").value;
         if (fecha_parcial && cantidad_parcial) {
             entregas_parciales.push({ fecha: fecha_parcial, cantidad: cantidad_parcial });
         }
@@ -58,18 +60,20 @@ document.getElementById("guardarPedido").addEventListener("click", async () => {
     // Crear objeto con los datos
     const pedido = { remision, articulo, taller, fecha_despacho, cantidad, referencia, entregas_parciales };
 
+    console.log("📌 Datos que se enviarán:", pedido); // Para depuración
+
     try {
         // Enviar datos al backend `index.js`
-        const response = await fetch("https://gestionarticulos-a8xs.onrender.com/registro.html", {
+        const response = await fetch("https://gestionarticulos-a8xs.onrender.com/registrar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(pedido),
         });
 
         const data = await response.json();
-        alert(data.mensaje); // Mostrar mensaje de respuesta
+        alert(data.mensaje); // Mostrar mensaje de éxito/error
     } catch (error) {
-        console.error("Error al enviar datos:", error);
+        console.error("❌ Error en la conexión:", error);
         alert("❌ Hubo un error al registrar el pedido.");
     }
 });
