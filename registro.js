@@ -39,7 +39,7 @@ function eliminarEntrega(id) {
 //envio de datos a dormulario (funcion guardar datos)
 
 document.addEventListener("DOMContentLoaded", () => {
-    let entregaContador = 0; // Contador para las entregas parciales
+    let entregaContador = 0; // Contador para entregas parciales
     const maxEntregas = 5; // Límite de entregas parciales
 
     function agregarEntregaParcial() {
@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
             entregaContador++;
 
             let container = document.getElementById("entregasParciales");
-
             let div = document.createElement("div");
             div.classList.add("entrega-parcial");
             div.id = `entrega-${entregaContador}`;
@@ -76,11 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 📌 Función para obtener valores seguros del formulario
-    const getValue = (id) => {
-        const element = document.getElementById(id);
-        return element ? element.value.trim() : "";
-    };
+    const getValue = (id) => document.getElementById(id)?.value.trim() || "";
 
     // 📌 Capturar el evento de envío del formulario
     const formulario = document.getElementById("pedidoForm");
@@ -103,32 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Obtener datos de entregas parciales
-           document.addEventListener("DOMContentLoaded", () => {
-    const formulario = document.getElementById("pedidoForm");
-
-    if (formulario) {
-        formulario.addEventListener("submit", async (event) => {
-            event.preventDefault(); // Evita la recarga del formulario
-
-            console.log("📌 Botón presionado, preparando datos...");
-
-            // 📌 Obtener valores del formulario
-            const getValue = (id) => document.getElementById(id)?.value.trim() || "";
-
-            const remision = getValue("remision");
-            const articulo = getValue("articulo");
-            const taller = getValue("taller");
-            const fecha_despacho = getValue("fecha_despacho");
-            const cantidad = getValue("cantidad");
-            const referencia = getValue("referencia");
-
-            if (!remision || !articulo || !taller || !fecha_despacho || !cantidad) {
-                alert("❌ Todos los campos obligatorios deben estar llenos.");
-                return;
-            }
-
-            // 📌 Capturar entregas parciales
             let entregas_parciales = [];
             document.querySelectorAll(".entrega-parcial").forEach((div) => {
                 const fecha_parcial = div.querySelector("input[type='date']").value.trim();
@@ -138,13 +107,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // 📌 Crear objeto con los datos del pedido
             const pedido = { remision, articulo, taller, fecha_despacho, cantidad, referencia, entregas_parciales };
 
             console.log("📌 Datos que se enviarán:", pedido);
 
             try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbxxewslukjEuDUbVQ49j1l5Pg8lwsXiT2U5qqk9nkye4yrvP3-CtVC8Ff5pU375LkWA/exec", {
+                const response = await fetch("https://script.google.com/macros/s/TU_URL_DE_APPS_SCRIPT/exec", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(pedido),
@@ -156,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const data = await response.json();
                 alert(data.mensaje || "✅ Pedido guardado correctamente.");
-                formulario.reset(); // 📌 Limpiar el formulario tras éxito
+                formulario.reset();
             } catch (error) {
                 console.error("❌ Error en la conexión:", error);
                 alert("❌ Hubo un error al registrar el pedido.");
