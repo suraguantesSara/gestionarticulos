@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("📌 Datos que se enviarán:", pedido);
 
             try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbwjRbxJWNrfT9ocegaVtLvLUeHwDcKkJhHZ-tTeyNXjRLyJPq2YyfwPBl-QUyijcMKVRg/exec", {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbxzGNBuBUeiurN0_9sHMVxqPc_RS3ziQj0U5FBXF6UyRqsfEztNRdeikQiL-EVUlnMHYQ/exec", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(pedido),
