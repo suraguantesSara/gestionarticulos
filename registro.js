@@ -60,7 +60,7 @@ document.getElementById("guardarPedido").addEventListener("click", async () => {
 
     try {
         // Enviar datos al backend `index.js`
-        const response = await fetch("https://tu-dominio-o-render-url/registrar", {
+        const response = await fetch("https://gestionarticulos-a8xs.onrender.com/registro.html", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(pedido),
