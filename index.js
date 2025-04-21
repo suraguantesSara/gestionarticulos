@@ -10,40 +10,40 @@ const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzTB-Io2LyQoA
 app.use(cors());
 app.use(express.json());
 
-// 📌 Servir archivos estáticos desde la carpeta pública
-app.use(express.static(path.join(__dirname, "public")));
+//  Servir archivos estáticos desde la raíz del proyecto
+app.use(express.static(__dirname));
 
-// 📌 Ruta raíz que carga "index.html"
+//  Ruta raíz que carga "index.html" correctamente
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// 📌 Ruta para acceder a "registros.html"
+//  Ruta para acceder a "registros.html"
 app.get("/registros", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "registros.html"));
+    res.sendFile(path.join(__dirname, "registros.html"));
 });
 
-// 📌 Ruta para recibir datos del frontend y enviarlos a Google Sheets
+//  Ruta para recibir datos del frontend y enviarlos a Google Sheets
 app.post("/registrar", async (req, res) => {
     try {
         console.log("📌 Datos recibidos en el backend:", req.body);
 
-        // 📌 Validar que haya datos en el cuerpo de la solicitud
+        //  Validar que haya datos en el cuerpo de la solicitud
         if (!req.body || Object.keys(req.body).length === 0) {
             return res.status(400).json({ mensaje: "❌ Error: No se enviaron datos válidos." });
         }
 
-        // 📌 Enviar datos a Google Sheets
+        //  Enviar datos a Google Sheets
         const response = await axios.post(GOOGLE_SHEETS_URL, req.body, {
             headers: { "Content-Type": "application/json" }
         });
 
-        // 📌 Revisar si la respuesta de Google Sheets es válida
+        // Revisar si la respuesta de Google Sheets es válida
         if (response.status !== 200) {
             throw new Error(`❌ Error HTTP ${response.status}: ${response.statusText}`);
         }
 
-        // 📌 Responder con los datos procesados
+        // Responder con los datos procesados
         res.json(response.data);
     } catch (error) {
         console.error("❌ Error al enviar datos a Google Sheets:", error);
@@ -51,7 +51,7 @@ app.post("/registrar", async (req, res) => {
     }
 });
 
-// 📌 Iniciar servidor
+//  Iniciar servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
 });
