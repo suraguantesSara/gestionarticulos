@@ -16,3 +16,7 @@ EXPOSE 3000 80
 
 # Comando para iniciar Apache y Node.js juntos
 CMD service apache2 start && npm start
+
+RUN ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime && \
+    echo "America/Bogota" > /etc/timezone
+
