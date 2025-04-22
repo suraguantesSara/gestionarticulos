@@ -11,49 +11,20 @@
     <div class="container">
         <h1>📊 Consulta de Pedidos</h1>
 
-        <form id="consultaForm" class="consulta-form">
+        <form method="GET" action="consultas.php" class="consulta-form">
             <label for="filtro">Seleccionar filtro de búsqueda:</label>
-            <select id="filtro">
+            <select name="filtro" id="filtro">
                 <option value="remision">Número de Remisión</option>
                 <option value="articulo">Artículo</option>
                 <option value="taller">Taller</option>
                 <option value="fecha">Fecha de Despacho</option>
             </select>
 
-            <input type="text" id="valorFiltro" placeholder="Ingrese el valor del filtro">
-            <button type="button" id="buscarBtn">🔍 Buscar</button>
+            <input type="text" name="valor" placeholder="Ingrese el valor del filtro">
+            <button type="submit">🔍 Buscar</button>
         </form>
 
-        <h2>📑 Resultado de la Consulta</h2>
-        <div class="tabla-container">
-            <table id="tablaResultados">
-                <thead>
-                    <tr>
-                        <th>Remisión</th>
-                        <th>Artículo</th>
-                        <th>Taller</th>
-                        <th>Fecha de Despacho</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se mostrarán los resultados dinámicamente -->
-                </tbody>
-            </table>
-        </div>
-
-        <h2>📝 Generar Informe</h2>
-        <div class="formulario-informe">
-            <label for="nombreGenerador">Nombre del Generador:</label>
-            <input type="text" id="nombreGenerador" placeholder="Ingrese su nombre">
-
-            <label for="fechaInforme">Fecha del Informe:</label>
-            <input type="date" id="fechaInforme">
-
-            <button id="descargarBtn">📥 Descargar Informe</button>
-        </div>
     </div>
 
-    <script src="consultas.js"></script>
 </body>
 </html>
