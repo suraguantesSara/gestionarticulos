@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // 📌 Enviar datos a Google Apps Script
-    $googleSheetsUrl = "https://script.google.com/macros/s/AKfycbzTB-Io2LyQoAC3vrCgShuosvWpXmW9K3OLuoUr6CmAAIYo_5mH_Shep6f043zW103Q/exec";
+    $googleSheetsUrl = "https://script.google.com/macros/s/AKfycbyKPO9HirAOGKdhJFbQclxQuhOAQhuxs_3-9vx5GODOXAy5ugjLgg2BpaNWETo4wBMN/exec";
     
     $options = [
         "http" => [
