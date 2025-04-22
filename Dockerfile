@@ -1,22 +1,20 @@
-FROM ubuntu:22.04
+# Usamos PHP con Apache como base
+FROM php:8.1-apache
 
-# Actualizar e instalar dependencias
-RUN apt update && apt install -y nodejs npm php apache2 libapache2-mod-php
+# Actualizamos paquetes e instalamos Node.js y npm
+RUN apt update && apt install -y nodejs npm
 
-WORKDIR /app
+# Configuramos el directorio de trabajo
+WORKDIR /var/www/html
 
-# Copiar archivos del proyecto
+# Copiamos todo el código del proyecto
 COPY . .
 
-# Instalar dependencias de Node.js
+# Instalamos dependencias de Node.js
 RUN npm install
 
-# Exponer puertos para Node.js y PHP
-EXPOSE 3000 80
+# Exponemos los puertos de PHP y Node.js
+EXPOSE 80 3000
 
-# Comando para iniciar Apache y Node.js juntos
+# Comando para arrancar Apache y Node.js juntos
 CMD service apache2 start && npm start
-
-RUN ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime && \
-    echo "America/Bogota" > /etc/timezone
-
