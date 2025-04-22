@@ -7,6 +7,8 @@ COPY . .
 
 EXPOSE 80
 
+RUN echo "DirectoryIndex index.html index.php" >> /etc/apache2/apache2.conf
+
 CMD ["apache2-foreground"]
 
-RUN echo "DirectoryIndex index.html index.php" >> /etc/apache2/apache2.conf
+
