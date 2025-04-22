@@ -17,7 +17,7 @@ function validarCampos(step) {
     let campos = steps[step].querySelectorAll("input, select");
     for (let campo of campos) {
         if (campo.required && campo.value.trim() === "") {
-            mostrarMensaje(`⚠️ Por favor completa ${campo.previousElementSibling.textContent}.`, "error");
+            mostrarMensaje(`⚠️ Completa ${campo.previousElementSibling.textContent}.`, "error");
             return false;
         }
     }
