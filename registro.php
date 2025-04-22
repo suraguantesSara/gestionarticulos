@@ -1,3 +1,4 @@
+<?php
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $pedido = [
         "remision" => $_POST["remision"] ?? "",
@@ -9,8 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "entregas_parciales" => []
     ];
 
-    // 📌 Agregar entregas parciales en pares (fecha y cantidad)
-    for ($i = 1; $i <= 5; $i++) {
+    // 📌 Capturar entregas parciales con su cantidad correspondiente
+    for ($i = 1; $i <= 3; $i++) { // Ajusta según el número de entregas parciales permitidas en el formulario
         $fecha = $_POST["fecha_parcial_$i"] ?? "";
         $cantidad = $_POST["cantidad_parcial_$i"] ?? "";
 
@@ -19,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-    // 📌 Guardamos el log para revisar estructura antes de enviarlo
+    // 📌 Guardar log para revisar estructura antes de enviarlo
     file_put_contents("log.txt", json_encode($pedido, JSON_PRETTY_PRINT));
 
-    // 📌 Enviar datos a Google Sheets
-   $googleSheetsUrl = "https://script.google.com/macros/s/AKfycbxQXJ2XXmTlWsug3E6gSfcZ092DJ8L63oikw8AIQI9XVNgXDF2U1gFYqhsu9M3vD9hw/exec";
+    // 📌 Enviar datos a Google Apps Script
+    $googleSheetsUrl = "https://script.google.com/macros/s/TU_URL_DE_APPS_SCRIPT/exec";
 
     $ch = curl_init($googleSheetsUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -36,3 +37,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     echo json_encode(["mensaje" => "✅ Pedido registrado exitosamente.", "respuesta" => $response]);
 }
+?>
