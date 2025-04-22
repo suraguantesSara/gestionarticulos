@@ -34,3 +34,35 @@ function eliminarEntrega(id) {
         entregaContador--;
     }
 }
+
+document.getElementById("miFormulario").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let formData = new FormData(this);
+    let entregasParciales = [];
+
+    for (let i = 1; i <= maxEntregas; i++) {
+        let fecha = document.getElementById(`fecha_parcial_${i}`)?.value || "";
+        let cantidad = document.getElementById(`cantidad_parcial_${i}`)?.value || "";
+
+        if (fecha || cantidad) { // Solo guardar si hay datos
+            entregasParciales.push({ fecha, cantidad });
+        }
+    }
+
+    // 📌 Convertimos los datos en JSON para enviarlos a `registro.php`
+    let pedido = {};
+    formData.forEach((value, key) => {
+        pedido[key] = value;
+    });
+    pedido.entregas_parciales = entregasParciales;
+
+    fetch("registro.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pedido)
+    })
+    .then(response => response.json())
+    .then(data => console.log("✅ Respuesta:", data))
+    .catch(error => console.error("❌ Error:", error));
+});
