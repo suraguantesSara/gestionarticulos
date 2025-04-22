@@ -1,44 +1,55 @@
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+document.addEventListener("DOMContentLoaded", function () {
+    const tablaResultados = document.querySelector("#tablaResultados tbody");
+    const buscarBtn = document.getElementById("buscarBtn");
 
-require "vendor/autoload.php";
-use Dompdf\Dompdf;
+    function buscarPedidos() {
+        const filtro = document.getElementById("filtro").value;
+        const valorFiltro = document.getElementById("valorFiltro").value.trim();
 
-$spreadsheetId = "1P1QQhPe8rrWMMzBe4xl4mnKgSqWxDf8VLlJVl2MrZHU";
-$scriptUrl = "https://script.google.com/macros/s/AKfycbx8ML4x4bf2SjKNXYZj0xp84u6800fkBSURijAlJhpOHsNdj__W9PsfMRjXW8twLmqL/exec";
+        if (valorFiltro === "") {
+            alert("⚠️ Ingresa un valor de búsqueda.");
+            return;
+        }
 
-if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
-    $filtro = $_GET["filtro"];
-    $valor = $_GET["valor"];
-    
-    $url = "$scriptUrl?spreadsheetId=$spreadsheetId&hoja=articulos&filtro=$filtro&valor=$valor";
-
-    // 📌 Usar cURL para obtener la respuesta
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    header("Content-Type: application/json");
-
-    // 📌 Filtrar respuestas HTML antes de procesarlas
-    if (!$response || strpos($response, "<") !== false) {
-        echo json_encode(["error" => "❌ Respuesta en formato incorrecto. Verifica el Apps Script."]);
-        exit();
+        console.log(`🔍 Buscando pedidos con filtro: ${filtro}, valor: ${valorFiltro}...`);
+        fetch(`consultas.php?filtro=${filtro}&valor=${valorFiltro}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("✅ Respuesta recibida:", data);
+                if (!data || typeof data !== "object" || data.error) {
+                    alert("⚠️ Hubo un problema con la consulta: " + (data.error || "Formato de respuesta inválido."));
+                    return;
+                }
+                mostrarResultados(data);
+            })
+            .catch(error => {
+                console.error("❌ Error en la consulta:", error);
+                alert("❌ Hubo un problema al obtener los datos.");
+            });
     }
 
-    $jsonData = json_decode($response, true);
-    if ($jsonData === null) {
-        echo json_encode(["error" => "❌ Respuesta inválida de Google Sheets."]);
-        exit();
+    function mostrarResultados(datos) {
+        if (!Array.isArray(datos)) {
+            alert("⚠️ Respuesta en formato incorrecto.");
+            return;
+        }
+
+        tablaResultados.innerHTML = "";
+        datos.forEach(pedido => {
+            let fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td>${pedido.remision}</td>
+                <td>${pedido.articulo}</td>
+                <td>${pedido.taller}</td>
+                <td>${pedido.fecha_despacho}</td>
+                <td>${pedido.cantidad}</td>
+            `;
+            tablaResultados.appendChild(fila);
+        });
+
+        console.log(`✅ ${datos.length} resultados cargados en la tabla.`);
+        alert("✅ Los datos se han cargado correctamente.");
     }
 
-    echo json_encode($jsonData);
-    exit();
-}
-?>
+    buscarBtn.addEventListener("click", buscarPedidos);
+});
