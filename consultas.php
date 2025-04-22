@@ -8,6 +8,11 @@ use Dompdf\Dompdf;
 $spreadsheetId = "1P1QQhPe8rrWMMzBe4xl4mnKgSqWxDf8VLlJVl2MrZHU";
 $scriptUrl = "https://script.google.com/macros/s/AKfycbx8ML4x4bf2SjKNXYZj0xp84u6800fkBSURijAlJhpOHsNdj__W9PsfMRjXW8twLmqL/exec";
 
+// 📌 Función para limpiar etiquetas HTML y caracteres no deseados
+function limpiarHTML($string) {
+    return strip_tags(trim($string));
+}
+
 if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
     $filtro = $_GET["filtro"];
     $valor = $_GET["valor"];
@@ -26,14 +31,21 @@ if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
 
     header("Content-Type: application/json");
 
-    // 📌 Filtrar respuestas HTML antes de procesarlas
-    if (!$response || strpos($response, "<") !== false) {
+    // 📌 Validar si la respuesta tiene HTML y limpiarla
+    $responseLimpiado = limpiarHTML($response);
+
+    // 📌 Imprimir respuesta JSON para depuración
+    echo json_encode(["debug_response" => $responseLimpiado]);
+
+    if (!$responseLimpiado || strpos($responseLimpiado, "<") !== false) {
         echo json_encode(["error" => "❌ Respuesta en formato incorrecto. Verifica el Apps Script."]);
         exit();
     }
 
-    $jsonData = json_decode($response, true);
-    if ($jsonData === null) {
+    $jsonData = json_decode($responseLimpiado, true);
+
+    // 📌 Verificar si la conversión a JSON fue exitosa
+    if ($jsonData === null || json_last_error() !== JSON_ERROR_NONE) {
         echo json_encode(["error" => "❌ Respuesta inválida de Google Sheets."]);
         exit();
     }
