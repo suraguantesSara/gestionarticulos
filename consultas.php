@@ -8,18 +8,11 @@ use Dompdf\Dompdf;
 $spreadsheetId = "1P1QQhPe8rrWMMzBe4xl4mnKgSqWxDf8VLlJVl2MrZHU";
 $scriptUrl = "https://script.google.com/macros/s/AKfycbx8ML4x4bf2SjKNXYZj0xp84u6800fkBSURijAlJhpOHsNdj__W9PsfMRjXW8twLmqL/exec";
 
-// 📌 Función para limpiar etiquetas HTML y caracteres no deseados
-function limpiarHTML($string) {
-    return strip_tags(trim($string));
-}
-
-if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
-    $filtro = $_GET["filtro"];
-    $valor = $_GET["valor"];
-    
+function obtenerDatos($filtro, $valor) {
+    global $scriptUrl, $spreadsheetId;
     $url = "$scriptUrl?spreadsheetId=$spreadsheetId&hoja=articulos&filtro=$filtro&valor=$valor";
 
-    // 📌 Usar cURL para obtener la respuesta
+    // 📌 Usar cURL para obtener los datos
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -29,28 +22,60 @@ if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
     $response = curl_exec($ch);
     curl_close($ch);
 
-    header("Content-Type: application/json");
-
-    // 📌 Validar si la respuesta tiene HTML y limpiarla
-    $responseLimpiado = limpiarHTML($response);
-
-    // 📌 Imprimir respuesta JSON para depuración
-    echo json_encode(["debug_response" => $responseLimpiado]);
-
-    if (!$responseLimpiado || strpos($responseLimpiado, "<") !== false) {
-        echo json_encode(["error" => "❌ Respuesta en formato incorrecto. Verifica el Apps Script."]);
-        exit();
-    }
-
-    $jsonData = json_decode($responseLimpiado, true);
-
-    // 📌 Verificar si la conversión a JSON fue exitosa
-    if ($jsonData === null || json_last_error() !== JSON_ERROR_NONE) {
-        echo json_encode(["error" => "❌ Respuesta inválida de Google Sheets."]);
-        exit();
-    }
-
-    echo json_encode($jsonData);
-    exit();
+    return json_decode($response, true);
 }
+
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la Consulta</title>
+    <link rel="stylesheet" href="consultas.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>📑 Resultado de la Consulta</h1>
+        <div class="tabla-container">
+            <table id="tablaResultados">
+                <thead>
+                    <tr>
+                        <th>Remisión</th>
+                        <th>Artículo</th>
+                        <th>Taller</th>
+                        <th>Fecha de Despacho</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
+                        $filtro = $_GET["filtro"];
+                        $valor = $_GET["valor"];
+                        $datos = obtenerDatos($filtro, $valor);
+
+                        if (!empty($datos)) {
+                            foreach ($datos as $pedido) {
+                                echo "<tr>
+                                        <td>{$pedido['remision']}</td>
+                                        <td>{$pedido['articulo']}</td>
+                                        <td>{$pedido['taller']}</td>
+                                        <td>{$pedido['fecha_despacho']}</td>
+                                        <td>{$pedido['cantidad']}</td>
+                                    </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='5'>⚠️ No se encontraron resultados.</td></tr>";
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
