@@ -8,21 +8,34 @@ document.addEventListener("DOMContentLoaded", function () {
     function buscarPedidos() {
         const filtro = document.getElementById("filtro").value;
         const valorFiltro = document.getElementById("valorFiltro").value.trim();
-        
+
         if (valorFiltro === "") {
             alert("⚠️ Ingresa un valor de búsqueda.");
             return;
         }
 
+        console.log("🔍 Enviando solicitud a consultas.php...");
         fetch(`consultas.php?filtro=${filtro}&valor=${valorFiltro}`)
             .then(response => response.json())
-            .then(data => mostrarResultados(data))
-            .catch(error => console.error("❌ Error en la consulta:", error));
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    console.error("❌ Error:", data.error);
+                } else if (data.length === 0) {
+                    alert("⚠️ No se encontraron resultados.");
+                } else {
+                    alert("✅ Resultados obtenidos correctamente.");
+                    mostrarResultados(data);
+                }
+            })
+            .catch(error => {
+                console.error("❌ Error en la consulta:", error);
+                alert("❌ Hubo un problema al obtener los datos.");
+            });
     }
 
     function mostrarResultados(datos) {
-        tablaResultados.innerHTML = ""; 
-
+        tablaResultados.innerHTML = "";
         datos.forEach(pedido => {
             let fila = document.createElement("tr");
             fila.innerHTML = `
@@ -45,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function seleccionarPedido(pedido) {
         sessionStorage.setItem("pedidoSeleccionado", JSON.stringify(pedido));
         alert("✅ Pedido seleccionado. Ahora puedes generar el informe.");
+        console.log("📄 Pedido guardado para informe:", pedido);
     }
 
     function descargarInforme() {
@@ -55,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        console.log("📥 Generando informe PDF...");
         window.location.href = `consultas.php?remision=${pedido.remision}&articulo=${pedido.articulo}&taller=${pedido.taller}&fecha_despacho=${pedido.fecha_despacho}&cantidad=${pedido.cantidad}&usuario=${nombreGenerador.value}&fecha=${fechaInforme.value}`;
     }
 
