@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     file_put_contents("log.txt", json_encode($pedido, JSON_PRETTY_PRINT));
 
     // 📌 Enviar datos a Google Apps Script
-    $googleSheetsUrl = "https://script.google.com/macros/s/TU_URL_DE_APPS_SCRIPT/exec";
+    $googleSheetsUrl = "https://script.google.com/macros/s/AKfycbxqjUGskpamza1-kGCBW2XSGJRuQI3XSjCIKH40vnc0108v9vf6CWZCsezUO_fGQuHu/exec";
 
     $ch = curl_init($googleSheetsUrl);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
