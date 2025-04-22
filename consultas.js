@@ -5,6 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const buscarBtn = document.getElementById("buscarBtn");
     const descargarBtn = document.getElementById("descargarBtn");
 
+    if (!buscarBtn || !descargarBtn) {
+        console.error("❌ Error: Botones no encontrados en el DOM.");
+        return;
+    }
+
     function buscarPedidos() {
         const filtro = document.getElementById("filtro").value;
         const valorFiltro = document.getElementById("valorFiltro").value.trim();
@@ -53,6 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
             fila.addEventListener("mouseover", () => fila.style.background = "#f1f1f1");
             fila.addEventListener("mouseout", () => fila.style.background = "transparent");
         });
+
+        console.log(`✅ ${datos.length} resultados cargados en la tabla.`);
     }
 
     function seleccionarPedido(pedido) {
