@@ -6,7 +6,7 @@ require "vendor/autoload.php";
 use Dompdf\Dompdf;
 
 $spreadsheetId = "1P1QQhPe8rrWMMzBe4xl4mnKgSqWxDf8VLlJVl2MrZHU";
-$scriptUrl = "https://script.google.com/macros/s/AKfycbwnENwvtqA57UY0K50x6nJndeFzEWcVf_lPw1b3evT--RVqmyi5u_dhZdyJl4U5Z5qU/exec";
+$scriptUrl = "https://script.google.com/macros/s/AKfycbx8ML4x4bf2SjKNXYZj0xp84u6800fkBSURijAlJhpOHsNdj__W9PsfMRjXW8twLmqL/exec";
 
 if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
     $filtro = $_GET["filtro"];
@@ -17,8 +17,14 @@ if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
 
     header("Content-Type: application/json");
 
+    // 📌 Depuración: Mostrar la respuesta antes de procesarla
     if (!$response) {
         echo json_encode(["error" => "❌ No se pudo obtener datos de Google Sheets."]);
+        exit();
+    }
+
+    if (strpos($response, "<") !== false) { // Detectar contenido HTML en respuesta
+        echo json_encode(["error" => "❌ Respuesta en formato incorrecto. Verifica el Apps Script."]);
         exit();
     }
 
