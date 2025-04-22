@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require "vendor/autoload.php";
 use Dompdf\Dompdf;
 
@@ -11,15 +14,22 @@ if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
     $valor = $_GET["valor"];
     
     $url = "$scriptUrl?spreadsheetId=$spreadsheetId&hoja=articulos&filtro=$filtro&valor=$valor";
-    $response = file_get_contents($url);
+    $response = @file_get_contents($url);
 
     if (!$response) {
         echo json_encode(["error" => "❌ No se pudo obtener datos de Google Sheets."]);
         exit();
     }
 
+    // 📌 Verificar que la respuesta es JSON válida
+    $jsonData = json_decode($response, true);
+    if ($jsonData === null) {
+        echo json_encode(["error" => "❌ Respuesta inválida de Google Sheets."]);
+        exit();
+    }
+
     header("Content-Type: application/json");
-    echo $response;
+    echo json_encode($jsonData);
     exit();
 }
 
