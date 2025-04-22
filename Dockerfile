@@ -1,12 +1,15 @@
 
-FROM node:18
+version: '3'
 
-WORKDIR /app
+services:
+  nodejs:
+    build: .
+    ports:
+      - "3000:3000"
 
-COPY . .
-
-RUN npm install
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
+  php:
+    image: php:8.2-apache
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"
