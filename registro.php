@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "<div style='text-align:center; font-family:Arial; padding:20px;'>
             <h2 style='color:green;'>✅ Pedido registrado exitosamente.</h2>
             <p>Tu pedido ha sido guardado correctamente.</p>
-            <button onclick='window.location.href=\"formulario.html\"' 
+            <button onclick='window.location.href=\"registro.html\"' 
                 style='background:#007bff; color:white; padding:10px; border:none; border-radius:5px; cursor:pointer;'>
                 🔄 Realizar otro registro
             </button>
