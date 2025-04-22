@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 console.log("✅ Respuesta recibida:", data);
-                if (!data || data.length === 0) {
+                if (!data || !Array.isArray(data)) {
                     alert("⚠️ No se encontraron resultados.");
                     return;
                 }
