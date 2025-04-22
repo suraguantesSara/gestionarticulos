@@ -35,11 +35,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $response = curl_exec($ch);
     curl_close($ch);
 
-    // 📌 Mensaje de confirmación y redirección
-    echo "<script>
-        alert('✅ Pedido registrado exitosamente.');
-        window.location.href = 'formulario.html';
-    </script>";
+    // 📌 Mostrar mensaje de éxito con opciones
+    echo "<div style='text-align:center; font-family:Arial; padding:20px;'>
+            <h2 style='color:green;'>✅ Pedido registrado exitosamente.</h2>
+            <p>Tu pedido ha sido guardado correctamente.</p>
+            <button onclick='window.location.href=\"formulario.html\"' 
+                style='background:#007bff; color:white; padding:10px; border:none; border-radius:5px; cursor:pointer;'>
+                🔄 Realizar otro registro
+            </button>
+            <button onclick='window.location.href=\"index.html\"' 
+                style='background:#28a745; color:white; padding:10px; border:none; border-radius:5px; cursor:pointer; margin-left:10px;'>
+                🏠 Volver al inicio
+            </button>
+          </div>";
     exit();
 }
 ?>
+
