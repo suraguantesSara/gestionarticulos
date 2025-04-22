@@ -1,8 +1,3 @@
-<?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type");
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $pedido = [
         "remision" => $_POST["remision"] ?? "",
@@ -14,39 +9,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "entregas_parciales" => []
     ];
 
-    // 📌 Agregar entregas parciales si existen
+    // 📌 Agregar entregas parciales en pares (fecha y cantidad)
     for ($i = 1; $i <= 5; $i++) {
-        if (!empty($_POST["fecha_parcial_$i"]) && !empty($_POST["cantidad_parcial_$i"])) {
-            $pedido["entregas_parciales"][] = [
-                "fecha" => $_POST["fecha_parcial_$i"],
-                "cantidad" => $_POST["cantidad_parcial_$i"]
-            ];
+        $fecha = $_POST["fecha_parcial_$i"] ?? "";
+        $cantidad = $_POST["cantidad_parcial_$i"] ?? "";
+
+        if (!empty($fecha) || !empty($cantidad)) {
+            $pedido["entregas_parciales"][] = ["fecha" => $fecha, "cantidad" => $cantidad];
         }
     }
 
-    //para verificar datos enviados
-    file_put_contents("log.txt", json_encode($pedido));
+    // 📌 Guardamos el log para revisar estructura antes de enviarlo
+    file_put_contents("log.txt", json_encode($pedido, JSON_PRETTY_PRINT));
 
-    // 📌 Enviar datos a Google Apps Script
-    $googleSheetsUrl = "https://script.google.com/macros/s/AKfycbzGe8EwWGXU_DpBsFnV8SVIyrwJ3xBdhnyd7tzLCfchViM1jx_xT3YflTGPe-LfbgHo/exec";
-    
-    $options = [
-        "http" => [
-            "method" => "POST",
-            "header" => "Content-Type: application/json",
-            "content" => json_encode($pedido)
-        ]
-    ];
+    // 📌 Enviar datos a Google Sheets
+   $googleSheetsUrl = "https://script.google.com/macros/s/AKfycbxQXJ2XXmTlWsug3E6gSfcZ092DJ8L63oikw8AIQI9XVNgXDF2U1gFYqhsu9M3vD9hw/exec";
 
-    $context = stream_context_create($options);
-    $response = file_get_contents($googleSheetsUrl, false, $context);
+    $ch = curl_init($googleSheetsUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($pedido));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
 
-    if ($response) {
-        echo json_encode(["mensaje" => "✅ Pedido registrado exitosamente.", "respuesta" => $response]);
-    } else {
-        echo json_encode(["mensaje" => "❌ Error al registrar el pedido en Google Sheets."]);
-    }
-} else {
-    echo json_encode(["mensaje" => "❌ Solo se aceptan solicitudes POST."]);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    echo json_encode(["mensaje" => "✅ Pedido registrado exitosamente.", "respuesta" => $response]);
 }
-?>
