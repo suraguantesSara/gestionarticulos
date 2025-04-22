@@ -16,6 +16,10 @@ if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
     $url = "$scriptUrl?spreadsheetId=$spreadsheetId&hoja=articulos&filtro=$filtro&valor=$valor";
     $response = @file_get_contents($url);
 
+    // 📌 Mostrar la respuesta para depuración
+    header("Content-Type: application/json");
+    echo json_encode(["debug_response" => $response]);
+
     if (!$response) {
         echo json_encode(["error" => "❌ No se pudo obtener datos de Google Sheets."]);
         exit();
@@ -24,11 +28,10 @@ if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
     // 📌 Verificar que la respuesta es JSON válida
     $jsonData = json_decode($response, true);
     if ($jsonData === null) {
-        echo json_encode(["error" => "❌ Respuesta inválida de Google Sheets."]);
+        echo json_encode(["error" => "❌ Respuesta inválida de Google Sheets.", "debug_raw" => $response]);
         exit();
     }
 
-    header("Content-Type: application/json");
     echo json_encode($jsonData);
     exit();
 }
