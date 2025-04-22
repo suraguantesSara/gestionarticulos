@@ -24,8 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
+    //para verificar datos enviados
+    file_put_contents("log.txt", json_encode($pedido));
+
     // 📌 Enviar datos a Google Apps Script
-    $googleSheetsUrl = "https://script.google.com/macros/s/AKfycbxjgM26a_h5B3myezn7el5OrFQ5MG3VybT8qQr4eS97RVs8O6A-S3VY8VySoE25jkYC/exec";
+    $googleSheetsUrl = "https://script.google.com/macros/s/AKfycbzGe8EwWGXU_DpBsFnV8SVIyrwJ3xBdhnyd7tzLCfchViM1jx_xT3YflTGPe-LfbgHo/exec";
     
     $options = [
         "http" => [
