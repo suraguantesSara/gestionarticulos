@@ -2,15 +2,13 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
 $spreadsheetId = "1P1QQhPe8rrWMMzBe4xl4mnKgSqWxDf8VLlJVl2MrZHU";
-$scriptUrl = "https://script.google.com/macros/s/AKfycbx8ML4x4bf2SjKNXYZj0xp84u6800fkBSURijAlJhpOHsNdj__W9PsfMRjXW8twLmqL/exec";
+$scriptUrl = "https://script.google.com/macros/s/AKfycbzdHPn9XCqcvjSv7fIKRQtZN2o4IDlqh5yVvvPCrMgC751W_MT0IFCKHtrPchuOZSWc/exec";
 
-function obtenerDatos($filtro, $valor) {
-    global $scriptUrl, $spreadsheetId;
-    $url = "$scriptUrl?spreadsheetId=$spreadsheetId&hoja=articulos&filtro=$filtro&valor=$valor";
+function obtenerDatos() {
+    global $scriptUrl;
+    $url = "$scriptUrl";
 
-    // 📌 Usar cURL para obtener los datos
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -23,6 +21,7 @@ function obtenerDatos($filtro, $valor) {
     return json_decode($response, true);
 }
 
+$datos = obtenerDatos();
 ?>
 
 <!DOCTYPE html>
@@ -30,50 +29,48 @@ function obtenerDatos($filtro, $valor) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de la Consulta</title>
+    <title>Consultar Pedidos</title>
     <link rel="stylesheet" href="consultas.css">
 </head>
 <body>
 
     <div class="container">
-        <h1>📑 Resultado de la Consulta</h1>
-        <div class="tabla-container">
-            <table id="tablaResultados">
-                <thead>
-                    <tr>
-                        <th>Remisión</th>
-                        <th>Artículo</th>
-                        <th>Taller</th>
-                        <th>Fecha de Despacho</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if (isset($_GET["filtro"]) && isset($_GET["valor"])) {
-                        $filtro = $_GET["filtro"];
-                        $valor = $_GET["valor"];
-                        $datos = obtenerDatos($filtro, $valor);
+        <h1>📊 Consulta de Pedidos</h1>
 
-                        if (!empty($datos)) {
-                            foreach ($datos as $pedido) {
-                                echo "<tr>
-                                        <td>{$pedido['remision']}</td>
-                                        <td>{$pedido['articulo']}</td>
-                                        <td>{$pedido['taller']}</td>
-                                        <td>{$pedido['fecha_despacho']}</td>
-                                        <td>{$pedido['cantidad']}</td>
-                                    </tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='5'>⚠️ No se encontraron resultados.</td></tr>";
-                        }
+        <table id="tablaResultados">
+            <thead>
+                <tr>
+                    <th>Seleccionar</th>
+                    <th>Remisión</th>
+                    <th>Artículo</th>
+                    <th>Taller</th>
+                    <th>Fecha de Despacho</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if (!empty($datos)) {
+                    foreach ($datos as $pedido) {
+                        echo "<tr>
+                                <td><input type='checkbox' class='seleccionar' data-pedido='".json_encode($pedido)."'></td>
+                                <td>{$pedido['remision']}</td>
+                                <td>{$pedido['articulo']}</td>
+                                <td>{$pedido['taller']}</td>
+                                <td>{$pedido['fecha_despacho']}</td>
+                                <td>{$pedido['cantidad']}</td>
+                            </tr>";
                     }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+                } else {
+                    echo "<tr><td colspan='6'>⚠️ No se encontraron resultados.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+
+        <button id="generarPDF">📥 Generar Informe PDF</button>
     </div>
 
+    <script src="consultas.js"></script>
 </body>
 </html>
