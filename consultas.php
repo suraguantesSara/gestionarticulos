@@ -2,8 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$spreadsheetId = "1P1QQhPe8rrWMMzBe4xl4mnKgSqWxDf8VLlJVl2MrZHU";
-$scriptUrl = "https://script.google.com/macros/s/AKfycbzdHPn9XCqcvjSv7fIKRQtZN2o4IDlqh5yVvvPCrMgC751W_MT0IFCKHtrPchuOZSWc/exec";
+$scriptUrl = "https://script.google.com/macros/s/AKfycbzN7JIs1aWLS6BY2YbOFpdiL4rXK1qHBi7ZSO9T4rZzqmvZ68q4Vq-FYezU0EvUjteO/exec";
 
 function obtenerDatos() {
     global $scriptUrl;
