@@ -17,14 +17,33 @@
                 <option value="remision">Número de Remisión</option>
                 <option value="articulo">Artículo</option>
                 <option value="taller">Taller</option>
-                <option value="fecha">Fecha de Despacho</option>
+                <option value="fecha_despacho">Fecha de Despacho</option>
             </select>
 
             <input type="text" name="valor" placeholder="Ingrese el valor del filtro">
             <button type="submit">🔍 Buscar</button>
         </form>
 
+        <h2>📑 Lista de Pedidos</h2>
+        <table id="tablaResultados">
+            <thead>
+                <tr>
+                    <th>Seleccionar</th>
+                    <th>Remisión</th>
+                    <th>Artículo</th>
+                    <th>Taller</th>
+                    <th>Fecha de Despacho</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php include 'consultas.php'; ?>
+            </tbody>
+        </table>
+
+        <button id="generarPDF">📥 Generar Informe PDF</button>
     </div>
 
+    <script src="consultas.js"></script>
 </body>
 </html>
