@@ -4,7 +4,7 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
     let filtro = document.getElementById("filtro").value;
     let valor = document.getElementById("valor").value;
 
-    fetch(`https://script.google.com/macros/s/AKfycbwUXQuxraQtKEFuFvcfHHOU2Bz4xUIrGuhlfek2a5nnxoGg6wWyT1CvJM76HjzlZlDz/exec?filtro=${filtro}&valor=${valor}`)
+    fetch(`https://script.google.com/macros/s/AKfycbwqupaXl7Sxq-SqHLdwylOA6zEKTJZiLrLi1joIBFWeuu6ntZWney3HhbQQNPy35LYS/exec?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`)
         .then(response => response.json())
         .then(data => {
             let resultadoDiv = document.getElementById("resultado");
@@ -28,4 +28,12 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
             }
         })
         .catch(error => console.error("Error en la consulta:", error));
+});
+
+// Conectar con PHP para generar PDF
+document.getElementById("generarPDF").addEventListener("click", function() {
+    let filtro = document.getElementById("filtro").value;
+    let valor = document.getElementById("valor").value;
+
+    window.location.href = `consultas.php?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`;
 });
