@@ -16,7 +16,7 @@ $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 16);
 
 // Membrete con el logo
-$pdf->Image('suramericana_logo.png', 10, 10, 40); // Asegúrate de que el logo esté en la carpeta del proyecto
+$pdf->Image('https://0901.static.prezi.com/preview/v2/htkkf7ewxt5git4tcu6zv6x7tp6jc3sachvcdoaizecfr3dnitcq_3_0.png', 10, 10, 40);
 $pdf->Cell(190, 10, "Suramericana de Guantes SAS", 0, 1, 'C');
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(190, 6, "Informe de Inventario", 0, 1, 'C');
