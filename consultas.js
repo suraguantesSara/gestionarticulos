@@ -4,7 +4,7 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
     let filtro = document.getElementById("filtro").value;
     let valor = document.getElementById("valor").value;
 
-    fetch(`https://script.google.com/macros/s/AKfycbx0KD_5RFIsKWlnb5u8jYki0v2EYruS_gCnf0gdxX0mqX6Rzm3bJIkyfoG0PNnq6d7C/exec?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`)
+    fetch(`https://script.google.com/macros/s/AKfycbx91_RfojfKdstAFiYAqlesAST2M7M9iFkSvJ9NsNjkJcS-akxpX3YPdgrIjKY-H_SC/exec?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`)
         .then(response => response.json())
         .then(data => {
             let resultadoDiv = document.getElementById("resultado");
@@ -34,6 +34,7 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
 document.getElementById("generarPDF").addEventListener("click", function() {
     let filtro = document.getElementById("filtro").value;
     let valor = document.getElementById("valor").value;
+    let usuario = document.getElementById("usuario").value;
 
-    window.location.href = `consultas.php?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`;
+    window.location.href = `consultas.php?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}&usuario=${encodeURIComponent(usuario)}`;
 });
