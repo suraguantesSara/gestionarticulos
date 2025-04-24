@@ -1,5 +1,5 @@
 <?php
-require('fpdf.php');
+require('fpdf186/fpdf.php');
 
 $filtro = $_GET['filtro'];
 $valor = $_GET['valor'];
