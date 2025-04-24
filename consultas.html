@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Datos</title>
+    <title>Consulta de Inventario</title>
     <link rel="stylesheet" href="consultas.css">
 </head>
 <body>
     <h2>Consulta de Inventario</h2>
     
     <form id="consultaForm">
+        <label for="usuario">Nombre:</label>
+        <input type="text" id="usuario" placeholder="Tu nombre aquí">
+        
         <label for="filtro">Filtrar por:</label>
         <select id="filtro">
-            <option value="Nombre del artículo">Nombre del artículo</option>
-            <option value="Código de artículo">Código de artículo</option>
+            <option value="Remision">Remisión</option>
+            <option value="Articulo">Artículo</option>
+            <option value="Taller">Taller</option>
             <option value="Fecha despacho">Fecha despacho</option>
         </select>
+        
         <input type="text" id="valor" placeholder="Ingrese valor">
         <button type="submit">Consultar</button>
     </form>
