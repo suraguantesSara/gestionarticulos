@@ -8,16 +8,21 @@
 </head>
 <body>
     <h2>Consulta de Inventario</h2>
+    
     <form id="consultaForm">
         <label for="filtro">Filtrar por:</label>
         <select id="filtro">
-            <option value="nombre">Nombre</option>
-            <option value="categoria">Categoría</option>
+            <option value="Nombre del artículo">Nombre del artículo</option>
+            <option value="Código de artículo">Código de artículo</option>
+            <option value="Fecha despacho">Fecha despacho</option>
         </select>
         <input type="text" id="valor" placeholder="Ingrese valor">
         <button type="submit">Consultar</button>
     </form>
+    
     <div id="resultado"></div>
+
+    <button id="generarPDF">Generar Informe PDF</button>
 
     <script src="consultas.js"></script>
 </body>
