@@ -1,21 +1,31 @@
-document.getElementById("generarPDF").addEventListener("click", function() {
-    let seleccionados = [];
-    document.querySelectorAll(".seleccionar:checked").forEach(input => {
-        seleccionados.push(JSON.parse(input.getAttribute("data-pedido")));
-    });
+document.getElementById("consultaForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    let filtro = document.getElementById("filtro").value;
+    let valor = document.getElementById("valor").value;
 
-    if (seleccionados.length === 0) {
-        alert("⚠️ Debes seleccionar al menos un registro para generar el informe.");
-        return;
-    }
+    fetch(`https://script.google.com/macros/s/TU-SCRIPT-ID/exec?filtro=${filtro}&valor=${valor}`)
+        .then(response => response.json())
+        .then(data => {
+            let resultadoDiv = document.getElementById("resultado");
+            resultadoDiv.innerHTML = "";
 
-    let doc = new jsPDF();
-    doc.text("Informe de Pedidos", 10, 10);
+            if (data.error) {
+                resultadoDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
+            } else if (data.mensaje) {
+                resultadoDiv.innerHTML = `<p style="color: orange;">${data.mensaje}</p>`;
+            } else {
+                let table = "<table border='1'><tr>";
+                table += Object.keys(data[0]).map(key => `<th>${key}</th>`).join("");
+                table += "</tr>";
 
-    seleccionados.forEach((pedido, index) => {
-        let y = 20 + (index * 10);
-        doc.text(`Remisión: ${pedido.remision} - Artículo: ${pedido.articulo}`, 10, y);
-    });
+                data.forEach(row => {
+                    table += "<tr>" + Object.values(row).map(value => `<td>${value}</td>`).join("") + "</tr>";
+                });
 
-    doc.save("informe_pedidos.pdf");
+                table += "</table>";
+                resultadoDiv.innerHTML = table;
+            }
+        })
+        .catch(error => console.error("Error en la consulta:", error));
 });
