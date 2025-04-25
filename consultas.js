@@ -3,8 +3,8 @@ const scriptUrl = "https://script.google.com/macros/s/AKfycbwI6nMGi6Fsc6cHgWLGr2
 document.getElementById("consultaForm").addEventListener("submit", function(event) {
     event.preventDefault();
     
-    let filtro = document.getElementById("filtro").value;
-    let valor = document.getElementById("valor").value;
+    let filtro = document.getElementById("filtro").value.trim();
+    let valor = document.getElementById("valor").value.trim();
 
     fetch(`${scriptUrl}?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`)
         .then(response => response.json())
@@ -49,6 +49,11 @@ document.getElementById("entregaForm").addEventListener("submit", function(event
     let entrega = document.getElementById("entrega").value;
     let cantidad = document.getElementById("cantidad").value;
 
+    if (!entrega || cantidad <= 0) {
+        alert("⚠️ Ingresa una fecha válida y una cantidad mayor a 0.");
+        return;
+    }
+
     fetch(scriptUrl, {
         method: "POST",
         headers: {
@@ -70,9 +75,14 @@ document.getElementById("entregaForm").addEventListener("submit", function(event
 
 // Generar PDF desde PHP
 document.getElementById("generarPDF").addEventListener("click", function() {
-    let filtro = document.getElementById("filtro").value;
-    let valor = document.getElementById("valor").value;
-    let usuario = document.getElementById("usuario").value;
+    let filtro = document.getElementById("filtro").value.trim();
+    let valor = document.getElementById("valor").value.trim();
+    let usuario = document.getElementById("usuario").value.trim();
+
+    if (!usuario) {
+        alert("⚠️ Ingresa tu nombre antes de generar el informe.");
+        return;
+    }
 
     window.location.href = `consultas.php?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}&usuario=${encodeURIComponent(usuario)}`;
 });
