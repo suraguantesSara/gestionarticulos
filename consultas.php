@@ -7,8 +7,8 @@ $valor = $_GET['valor'];
 $usuario = $_GET['usuario'];
 $fecha_actual = date("Y-m-d H:i:s");
 
-// Obtener datos desde Apps Script
-$data = json_decode(file_get_contents("https://script.google.com/macros/s/AKfycbx91_RfojfKdstAFiYAqlesAST2M7M9iFkSvJ9NsNjkJcS-akxpX3YPdgrIjKY-H_SC/exec?filtro=".urlencode($filtro)."&valor=".urlencode($valor)), true);
+// Obtener datos desde Apps Script (con nueva URL)
+$data = json_decode(file_get_contents("https://script.google.com/macros/s/AKfycbwI6nMGi6Fsc6cHgWLGr2g8t-baHrTFCpk_xOiPv3xTptaZBkSJgCsuyolqoXeyBoTK/exec?filtro=".urlencode($filtro)."&valor=".urlencode($valor)), true);
 
 // Crear PDF en modo horizontal y ajustar márgenes
 $pdf = new FPDF('L', 'mm', 'A4'); // 'L' = Landscape, tamaño A4
