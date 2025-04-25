@@ -8,7 +8,7 @@ $usuario = $_GET['usuario'] ?? '';
 $fecha_actual = date("Y-m-d H:i:s");
 
 // Obtener datos desde Apps Script (URL corregida)
-$url = "https://script.google.com/macros/s/AKfycbxn4cbZ1HbkqsINmi8C9DokTvzy6R_67JgOV70WTBIJ497t6GtztlvkzKDDI1Ji27wG/exec?filtro=".urlencode($filtro)."&valor=".urlencode($valor);
+$url = "https://script.google.com/macros/s/AKfycbyQR8dNXMxbbf1quOtHrJ7JF0MPBN9DVmp1vwswMnauX_BMEdyesje2atpB1oTrPs0/exec?filtro=".urlencode($filtro)."&valor=".urlencode($valor);
 $data = json_decode(file_get_contents($url), true);
 
 // Crear PDF en modo horizontal
