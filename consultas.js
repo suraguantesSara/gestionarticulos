@@ -78,3 +78,18 @@ document.getElementById("entregaForm").addEventListener("submit", function(event
     })
     .catch(error => console.error("Error en el envío:", error));
 });
+
+document.getElementById("generarPDF").addEventListener("click", function() {
+    let filtro = document.getElementById("filtro").value;
+    let valor = document.getElementById("valor").value;
+    let usuario = document.getElementById("usuario").value || "Desconocido"; // Si el usuario no está definido
+
+    if (!filtro || !valor) {
+        alert("❌ Debes seleccionar un filtro y valor antes de generar el PDF.");
+        return;
+    }
+
+    let pdfURL = `consultas.php?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}&usuario=${encodeURIComponent(usuario)}`;
+    console.log("Generando PDF con URL:", pdfURL);
+    window.open(pdfURL, "_blank"); // Abre el PDF en otra pestaña
+});
