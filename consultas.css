@@ -1,21 +1,71 @@
+/* 🎨 Diseño moderno con colores vibrantes */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
+    background-color: #F8F9FA;
+    color: #333;
     text-align: center;
-    margin: 50px;
+    padding: 20px;
 }
 
-form {
-    margin-bottom: 20px;
+/* 🚀 Estilo para el formulario */
+#consultaForm, #entregaForm {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: auto;
 }
 
-input, select, button {
+/* 📝 Campos de entrada */
+input, select {
+    width: 100%;
     padding: 10px;
-    margin: 5px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
 }
 
+/* 🔥 Botón dinámico */
 button {
-    background-color: #4CAF50;
+    background-color: #007BFF;
     color: white;
     border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 📊 Tabla estilizada */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #007BFF;
+    color: white;
+}
+
+/* 🌟 Animación de carga */
+#resultado p {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
