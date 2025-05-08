@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Acceso Restringido</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>🔐 Ingreso Seguro</h2>
+        <label for="password">Ingresa la contraseña:</label>
+        <input type="password" id="password" maxlength="6" placeholder="Máx. 6 dígitos">
+        <button onclick="verificarAcceso()">Ingresar</button>
+        <p id="mensajeError" class="error-message"></p>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
