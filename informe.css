@@ -1,0 +1,114 @@
+/* 🌆 Fondo con degradado suave */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* 🏠 Contenedor principal con estilo de tarjeta */
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 🔐 Título con efecto elegante */
+h1 {
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* 📌 Etiquetas alineadas */
+label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 12px;
+    text-align: left;
+    color: #444;
+}
+
+/* 🔽 Campos de entrada con bordes suaves */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-top: 5px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+}
+
+/* 🎨 Botón con diseño moderno */
+button {
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    color: white;
+    font-size: 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #0056b3, #003f8a);
+    transform: scale(1.05);
+}
+
+/* 🏷️ Contenedor de tabla para resultados */
+.tabla-contenedor {
+    margin-top: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+/* 📊 Estilo para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+thead {
+    background: #007bff;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+tbody tr:hover {
+    background: rgba(0, 123, 255, 0.1);
+}
+
+/* 🔄 Animaciones suaves */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
