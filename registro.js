@@ -5,6 +5,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const prevButtons = document.querySelectorAll(".prev");
     const pedidoForm = document.getElementById("pedidoForm");
 
+
+        // Validación de contraseña
+    function verificarAcceso() {
+        const passwordInput = document.getElementById("password").value;
+        const correctPassword = "2025";
+
+        if (passwordInput === correctPassword) {
+            document.getElementById("authContainer").style.display = "none";
+            document.getElementById("formContainer").style.display = "block";
+        } else {
+            alert("❌ Contraseña incorrecta. Inténtalo nuevamente.");
+        }
+    }
+
+    window.verificarAcceso = verificarAcceso;
+
+    showStep(currentStep);
+});
+
     function showStep(step) {
         steps.forEach((s, index) => {
             s.classList.remove("active");
@@ -115,21 +134,3 @@ document.addEventListener("DOMContentLoaded", function () {
     showStep(currentStep);
 });
 
-
-    // Validación de contraseña
-    function verificarAcceso() {
-        const passwordInput = document.getElementById("password").value;
-        const correctPassword = "2025";
-
-        if (passwordInput === correctPassword) {
-            document.getElementById("authContainer").style.display = "none";
-            document.getElementById("formContainer").style.display = "block";
-        } else {
-            alert("❌ Contraseña incorrecta. Inténtalo nuevamente.");
-        }
-    }
-
-    window.verificarAcceso = verificarAcceso;
-
-    showStep(currentStep);
-});
