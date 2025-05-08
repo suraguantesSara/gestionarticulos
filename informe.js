@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const valorFiltro = document.getElementById("valorFiltro");
     const tablaResultados = document.getElementById("tablaResultados");
     const resultadoInforme = document.getElementById("resultadoInforme");
+    const btnPDF = document.getElementById("btnPDF");
 
     // 🔄 Mostrar campo de búsqueda si el usuario elige "Taller" o "Artículo"
     tipoFiltro.addEventListener("change", function () {
@@ -13,14 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
         valorFiltro.value = "";
     });
 
-    // 📊 Función para generar informe
+    // 📊 Función para generar informe y mostrar los resultados
     function generarInforme() {
         const nombre = nombreUsuario.value.trim();
         const estadoSeleccionado = filtroEstado.value;
         const filtroSeleccionado = tipoFiltro.value;
         const filtroValor = valorFiltro.value.trim();
 
-        // 🔎 Validar que el usuario ingresó su nombre
+        // 🔎 Validaciones antes de hacer la consulta
         if (nombre === "") {
             alert("⚠️ Debes ingresar tu nombre antes de generar el informe.");
             return;
@@ -40,10 +41,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (data.length === 0) {
                     tablaResultados.innerHTML = "<tr><td colspan='3'>⚠️ No se encontraron resultados.</td></tr>";
+                    btnPDF.style.display = "none"; // ❌ Ocultar botón PDF si no hay datos
                     return;
                 }
 
-                // 📌 Recorrer los datos y agregarlos a la tabla
+                // 📌 Agregar los datos filtrados a la tabla
                 data.forEach(row => {
                     let fila = `<tr>
                         <td>${row.taller}</td>
@@ -54,27 +56,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 resultadoInforme.style.display = "block"; // 📊 Mostrar tabla de resultados
-
-                // 📄 Enviar los datos filtrados al PHP para generar el PDF
-                generarPDF(nombre, estadoSeleccionado, filtroSeleccionado, filtroValor, data);
+                btnPDF.style.display = "block"; // ✅ Activar botón PDF después de ver los datos
             })
             .catch(error => {
                 console.error("❌ Error al obtener datos:", error);
                 alert("❌ Hubo un problema al generar el informe. Inténtalo nuevamente.");
+                btnPDF.style.display = "none"; // ❌ Ocultar botón PDF en caso de error
             });
     }
 
-    // 📄 Función para enviar datos al PHP y generar el PDF
-    function generarPDF(nombre, estado, tipoFiltro, valorFiltro, datos) {
-        fetch("generar_pdf.php", {
+    // 📄 Función para generar el PDF con `informe.php`
+    function generarPDF() {
+        const nombre = nombreUsuario.value.trim();
+        const estadoSeleccionado = filtroEstado.value;
+        const filtroSeleccionado = tipoFiltro.value;
+        const filtroValor = valorFiltro.value.trim();
+
+        fetch("informe.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 nombreUsuario: nombre,
-                filtroEstado: estado,
-                tipoFiltro: tipoFiltro,
-                valorFiltro: valorFiltro,
-                datos: datos
+                filtroEstado: estadoSeleccionado,
+                tipoFiltro: filtroSeleccionado,
+                valorFiltro: filtroValor
             })
         })
         .then(response => response.blob())
@@ -93,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 🏷️ Asignar la función al botón
+    // 🏷️ Asignar las funciones a los botones
     window.generarInforme = generarInforme;
+    window.generarPDF = generarPDF;
 });
-           
