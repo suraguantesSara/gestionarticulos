@@ -11,17 +11,18 @@
     <div class="container">
         <h1>📊 Generar Informe de Pedidos</h1>
 
-
+        <!-- 📝 Nombre del usuario -->
         <label for="nombreUsuario">📝 Nombre:</label>
         <input type="text" id="nombreUsuario" placeholder="Ingrese su nombre" required>
 
+        <!-- 📌 Filtro obligatorio por estado -->
         <label for="filtroEstado">📌 Filtrar por estado:</label>
         <select id="filtroEstado" required>
             <option value="pendientes">Pendientes (1 en adelante)</option>
             <option value="listos">Listos (0 o negativos)</option>
         </select>
 
-        <!-- 🎯 Opcional: Filtrar por "Taller" o "Artículo" -->
+        <!-- 🔎 Opcional: Filtrar por "Taller" o "Artículo" -->
         <label for="tipoFiltro">🔎 Filtrar por:</label>
         <select id="tipoFiltro">
             <option value="todos">Todos</option>
@@ -29,13 +30,14 @@
             <option value="articulo">Artículo</option>
         </select>
 
+        <!-- 🔽 Campo dinámico según filtro -->
         <input type="text" id="valorFiltro" placeholder="Escriba el nombre/tipo" style="display: none;">
 
-
+        <!-- 🎯 Botón para generar informe (solo muestra los datos en pantalla) -->
         <button onclick="generarInforme()">📊 Generar Informe</button>
 
-  
-        <div id="resultadoInforme" class="tabla-contenedor">
+        <!-- 📌 Espacio donde se mostrarán los resultados -->
+        <div id="resultadoInforme" class="tabla-contenedor" style="display: none;">
             <h2>📌 Resultados del Informe</h2>
             <table>
                 <thead>
@@ -49,6 +51,9 @@
                     <!-- 🔄 Aquí aparecerán los datos filtrados -->
                 </tbody>
             </table>
+
+            <!-- 🖨 Botón de generación de PDF (solo aparece después de ver los resultados) -->
+            <button id="btnPDF" onclick="generarPDF()" style="display: none;">🖨 Exportar a PDF</button>
         </div>
     </div>
 
