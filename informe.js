@@ -1,37 +1,37 @@
-function generarInforme() {
-    const nombre = nombreUsuario.value.trim();
-    const estadoSeleccionado = filtroEstado.value;
-    const filtroSeleccionado = tipoFiltro.value;
-    const filtroValor = valorFiltro.value.trim();
+document.addEventListener("DOMContentLoaded", function () {
+    const urlAPI = "https://script.google.com/macros/s/AKfycbyzJHuKweTANZFCughYkDN3vheWicSBjCuGq3rJKb8I2bpHSmxD-lh12zsS3Gm6CA6N/exec";
+    const btnPDF = document.getElementById("btnPDF");
 
-    if (nombre === "") {
-        alert("⚠️ Debes ingresar tu nombre antes de generar el informe.");
-        return;
-    }
+    function generarInforme() {
+        const nombre = document.getElementById("nombreUsuario").value;
+        const estado = document.getElementById("filtroEstado").value;
+        const tipo = document.getElementById("tipoFiltro").value;
+        const valor = document.getElementById("valorFiltro").value;
 
-    // 🛠 Construcción de la URL asegurando que siempre enviamos parámetros
-    let urlConFiltros = `${urlAPI}?estado=${encodeURIComponent(estadoSeleccionado)}&nombre=${encodeURIComponent(nombre)}`;
+        let url = `${urlAPI}?estado=${estado}`;
+        if (tipo !== "todos" && valor) url += `&${tipo}=${encodeURIComponent(valor)}`;
 
-    if (filtroSeleccionado !== "todos" && filtroValor !== "") {
-        urlConFiltros += `&${encodeURIComponent(filtroSeleccionado)}=${encodeURIComponent(filtroValor)}`;
-    }
-
-    fetch(urlConFiltros)
-        .then(response => response.json())
-        .then(data => {
-            console.log("🔎 Datos recibidos:", data); // 📌 Ver lo que devuelve Apps Script en la consola
-            if (!data || data.length === 0) {
-                tablaResultados.innerHTML = "<tr><td colspan='3'>⚠️ No hay resultados.</td></tr>";
-                btnPDF.style.display = "none";
-                return;
-            }
-
-            tablaResultados.innerHTML = data.map(row => `<tr><td>${row.taller}</td><td>${row.pendiente}</td><td>${row.articulo}</td></tr>`).join("");
-            resultadoInforme.style.display = "block";
-            btnPDF.style.display = "block";
-        })
-        .catch(error => {
-            console.error("❌ Error en la consulta:", error);
-            alert("❌ Hubo un problema al generar el informe.");
+        fetch(url).then(res => res.json()).then(data => {
+            document.getElementById("tablaResultados").innerHTML = data.length ? data.map(row => `<tr><td>${row.taller}</td><td>${row.pendiente}</td><td>${row.articulo}</td></tr>`).join("") : "<tr><td colspan='3'>No hay resultados.</td></tr>";
+            document.getElementById("resultadoInforme").style.display = "block";
+            btnPDF.style.display = data.length ? "block" : "none";
         });
-}
+    }
+
+    function generarPDF() {
+        fetch("informe.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({})
+        }).then(res => res.blob()).then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Informe_Pedidos.pdf";
+            a.click();
+        });
+    }
+
+    window.generarInforme = generarInforme;
+    window.generarPDF = generarPDF;
+});
