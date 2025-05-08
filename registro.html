@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Pedido</title>
     <link rel="stylesheet" href="registro.css">
 </head>
-
 <body>
+
+    <div class="container" id="authContainer">
+        <h2>🔐 Acceso Restringido</h2>
+        <label for="password">Ingresa la contraseña:</label>
+        <input type="password" id="password">
+        <button onclick="verificarAcceso()">Ingresar</button>
+    </div>
 
     <div class="container">
         <h1>📝 Registrar Pedido</h1>
