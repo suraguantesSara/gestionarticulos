@@ -3,61 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Generación de Informe</title>
-    <link rel="stylesheet" href="informe.css">
+    <title>🔐 Acceso Restringido</title>
+    <link rel="stylesheet" href="contraseña.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>📊 Generar Informe de Pedidos</h1>
+    <div class="login-container">
+        <h1>🔐 Acceso Seguro</h1>
+        <p>Por favor, ingresa la contraseña para continuar.</p>
 
-        <!-- 📝 Nombre del usuario -->
-        <label for="nombreUsuario">📝 Nombre:</label>
-        <input type="text" id="nombreUsuario" placeholder="Ingrese su nombre" required>
-
-        <!-- 📌 Filtro obligatorio por estado -->
-        <label for="filtroEstado">📌 Filtrar por estado:</label>
-        <select id="filtroEstado" required>
-            <option value="pendientes">Pendientes (1 en adelante)</option>
-            <option value="listos">Listos (0 o negativos)</option>
-        </select>
-
-        <!-- 🔎 Opcional: Filtrar por "Taller" o "Artículo" -->
-        <label for="tipoFiltro">🔎 Filtrar por:</label>
-        <select id="tipoFiltro">
-            <option value="todos">Todos</option>
-            <option value="taller">Taller</option>
-            <option value="articulo">Artículo</option>
-        </select>
-
-        <!-- 🔽 Campo dinámico según filtro -->
-        <input type="text" id="valorFiltro" placeholder="Escriba el nombre/tipo" style="display: none;">
-
-        <!-- 🎯 Botones -->
-        <button onclick="generarInforme()">📊 Consultar</button>
-        <button onclick="window.location.href='index.html';">🔙 Volver a Inicio</button>
-
-        <!-- 📌 Espacio donde se mostrarán los resultados -->
-        <div id="resultadoInforme" class="tabla-contenedor" style="display: none;">
-            <h2>📌 Resultados del Informe</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Taller</th>
-                        <th>Pendientes</th>
-                        <th>Artículo</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaResultados">
-                    <!-- 🔄 Aquí aparecerán los datos filtrados -->
-                </tbody>
-            </table>
-
-            <!-- 🖨 Botón para generar PDF después de ver resultados -->
-            <button id="btnPDF" onclick="generarPDF()" style="display: none;">🖨 Generar Informe en PDF</button>
+        <div class="input-group">
+            <input type="password" id="password" maxlength="6" placeholder="••••••">
+            <button onclick="verificarAcceso()">Ingresar</button>
         </div>
+
+        <button onclick="window.location.href='index.html';" class="secondary-button">Volver al inicio</button>
+        <button onclick="mostrarAviso()" class="help-button">No me sé la contraseña</button>
+
+        <p id="mensajeError" class="error-message"></p>
     </div>
 
-    <script src="informe.js"></script>
+    <script src="contraseña.js"></script>
 </body>
 </html>
