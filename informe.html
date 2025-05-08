@@ -33,8 +33,9 @@
         <!-- 🔽 Campo dinámico según filtro -->
         <input type="text" id="valorFiltro" placeholder="Escriba el nombre/tipo" style="display: none;">
 
-        <!-- 🎯 Botón para generar informe -->
-        <button onclick="generarInforme()">📊 Generar Informe</button>
+        <!-- 🎯 Botones -->
+        <button onclick="generarInforme()">📊 Consultar</button>
+        <button onclick="window.location.href='index.html';">🔙 Volver a Inicio</button>
 
         <!-- 📌 Espacio donde se mostrarán los resultados -->
         <div id="resultadoInforme" class="tabla-contenedor" style="display: none;">
@@ -52,8 +53,8 @@
                 </tbody>
             </table>
 
-            <!-- 🖨 Botón para generar PDF después de mostrar resultados -->
-            <button id="btnPDF" onclick="generarPDF()" style="display: none;">🖨 Exportar a PDF</button>
+            <!-- 🖨 Botón para generar PDF después de ver resultados -->
+            <button id="btnPDF" onclick="generarPDF()" style="display: none;">🖨 Generar Informe en PDF</button>
         </div>
     </div>
 
