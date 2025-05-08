@@ -1,1 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Generación de Informe</title>
+    <link rel="stylesheet" href="informe.css">
+</head>
+<body>
 
+    <div class="container">
+        <h1>📊 Generar Informe de Pedidos</h1>
+
+
+        <label for="nombreUsuario">📝 Nombre:</label>
+        <input type="text" id="nombreUsuario" placeholder="Ingrese su nombre" required>
+
+        <label for="filtroEstado">📌 Filtrar por estado:</label>
+        <select id="filtroEstado" required>
+            <option value="pendientes">Pendientes (1 en adelante)</option>
+            <option value="listos">Listos (0 o negativos)</option>
+        </select>
+
+        <!-- 🎯 Opcional: Filtrar por "Taller" o "Artículo" -->
+        <label for="tipoFiltro">🔎 Filtrar por:</label>
+        <select id="tipoFiltro">
+            <option value="todos">Todos</option>
+            <option value="taller">Taller</option>
+            <option value="articulo">Artículo</option>
+        </select>
+
+        <input type="text" id="valorFiltro" placeholder="Escriba el nombre/tipo" style="display: none;">
+
+
+        <button onclick="generarInforme()">📊 Generar Informe</button>
+
+  
+        <div id="resultadoInforme" class="tabla-contenedor">
+            <h2>📌 Resultados del Informe</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Taller</th>
+                        <th>Pendientes</th>
+                        <th>Artículo</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaResultados">
+                    <!-- 🔄 Aquí aparecerán los datos filtrados -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="informe.js"></script>
+</body>
+</html>
