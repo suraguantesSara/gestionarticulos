@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const passwordInput = document.getElementById("password");
     const mensajeError = document.getElementById("mensajeError");
-    const correctPassword = "2025"; // Contraseña
+    const correctPassword = "2025"; // 🔐 Contraseña definida
 
     function verificarAcceso() {
         const userPassword = passwordInput.value.trim();
@@ -10,12 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
             // ✅ Redirigir a la página de registro
             window.location.href = "registro.html";
         } else {
-            //error
+            // ❌ Mostrar mensaje de error
             mensajeError.textContent = "❌ Contraseña incorrecta. Inténtalo nuevamente.";
             mensajeError.style.display = "block";
             passwordInput.value = "";
             passwordInput.focus();
         }
+    }
+
+    function mostrarAviso() {
+        alert("⚠️ Si no recuerdas la contraseña, por favor contacta al encargado del sistema.");
     }
 
     // 🎯 Detectar "Enter" para ingresar más rápido
@@ -25,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 🔄 Asignar la función al botón
+    // 🔄 Asignar las funciones a los botones
     window.verificarAcceso = verificarAcceso;
+    window.mostrarAviso = mostrarAviso;
 });
