@@ -1,44 +1,37 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const urlAPI = "https://script.google.com/macros/s/AKfycbyzJHuKweTANZFCughYkDN3vheWicSBjCuGq3rJKb8I2bpHSmxD-lh12zsS3Gm6CA6N/exec";
-    const nombreUsuario = document.getElementById("nombreUsuario");
-    const filtroEstado = document.getElementById("filtroEstado");
-    const tipoFiltro = document.getElementById("tipoFiltro");
-    const valorFiltro = document.getElementById("valorFiltro");
-    const tablaResultados = document.getElementById("tablaResultados");
-    const resultadoInforme = document.getElementById("resultadoInforme");
-    const btnPDF = document.getElementById("btnPDF");
+function generarInforme() {
+    const nombre = nombreUsuario.value.trim();
+    const estadoSeleccionado = filtroEstado.value;
+    const filtroSeleccionado = tipoFiltro.value;
+    const filtroValor = valorFiltro.value.trim();
 
-    tipoFiltro.addEventListener("change", function () {
-        valorFiltro.style.display = (tipoFiltro.value !== "todos") ? "block" : "none";
-    });
+    if (nombre === "") {
+        alert("⚠️ Debes ingresar tu nombre antes de generar el informe.");
+        return;
+    }
 
-    function generarInforme() {
-        let urlConFiltros = `${urlAPI}?estado=${filtroEstado.value}`;
-        if (tipoFiltro.value !== "todos" && valorFiltro.value.trim() !== "") {
-            urlConFiltros += `&${tipoFiltro.value}=${encodeURIComponent(valorFiltro.value.trim())}`;
-        }
+    // 🛠 Construcción de la URL asegurando que siempre enviamos parámetros
+    let urlConFiltros = `${urlAPI}?estado=${encodeURIComponent(estadoSeleccionado)}&nombre=${encodeURIComponent(nombre)}`;
 
-        fetch(urlConFiltros).then(response => response.json()).then(data => {
-            tablaResultados.innerHTML = data.length ? data.map(row => `<tr><td>${row.taller}</td><td>${row.pendiente}</td><td>${row.articulo}</td></tr>`).join("") : "<tr><td colspan='3'>No hay resultados.</td></tr>";
+    if (filtroSeleccionado !== "todos" && filtroValor !== "") {
+        urlConFiltros += `&${encodeURIComponent(filtroSeleccionado)}=${encodeURIComponent(filtroValor)}`;
+    }
+
+    fetch(urlConFiltros)
+        .then(response => response.json())
+        .then(data => {
+            console.log("🔎 Datos recibidos:", data); // 📌 Ver lo que devuelve Apps Script en la consola
+            if (!data || data.length === 0) {
+                tablaResultados.innerHTML = "<tr><td colspan='3'>⚠️ No hay resultados.</td></tr>";
+                btnPDF.style.display = "none";
+                return;
+            }
+
+            tablaResultados.innerHTML = data.map(row => `<tr><td>${row.taller}</td><td>${row.pendiente}</td><td>${row.articulo}</td></tr>`).join("");
             resultadoInforme.style.display = "block";
-            btnPDF.style.display = data.length ? "block" : "none";
+            btnPDF.style.display = "block";
+        })
+        .catch(error => {
+            console.error("❌ Error en la consulta:", error);
+            alert("❌ Hubo un problema al generar el informe.");
         });
-    }
-
-    function generarPDF() {
-        fetch("informe.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nombreUsuario: nombreUsuario.value, filtroEstado: filtroEstado.value, tipoFiltro: tipoFiltro.value, valorFiltro: valorFiltro.value })
-        }).then(response => response.blob()).then(blob => {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "Informe_Pedidos.pdf";
-            a.click();
-        });
-    }
-
-    window.generarInforme = generarInforme;
-    window.generarPDF = generarPDF;
-});
+}
