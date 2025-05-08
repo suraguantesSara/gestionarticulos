@@ -1,7 +1,7 @@
-
+/* 🌌 Fondo oscuro con degradado */
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,33 +9,35 @@ body {
     margin: 0;
 }
 
-
+/* 🔲 Contenedor con efecto de borde luminoso */
 .login-container {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 15px rgba(0, 140, 255, 0.5);
+    backdrop-filter: blur(10px);
     text-align: center;
-    max-width: 400px;
+    max-width: 380px;
     animation: fadeIn 0.6s ease-in-out;
 }
 
+/* 🔐 Título con efecto de neón */
 h1 {
-    font-size: 26px;
-    color: #2c3e50;
+    font-size: 24px;
+    color: #00bcd4;
     margin-bottom: 10px;
     font-weight: bold;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    text-shadow: 0px 0px 10px rgba(0, 188, 212, 0.8);
 }
 
-
+/* 📝 Texto informativo */
 p {
     font-size: 16px;
-    color: #555;
+    color: #ddd;
     font-weight: 500;
 }
 
-
+/* 🔑 Grupo de entrada con efecto 3D */
 .input-group {
     display: flex;
     flex-direction: column;
@@ -43,24 +45,26 @@ p {
     margin-top: 20px;
 }
 
+/* 🏷 Campo de contraseña con borde brillante */
 input {
     width: 85%;
     padding: 12px;
     border-radius: 8px;
-    border: 2px solid #ccc;
+    border: 2px solid #007bff;
     font-size: 18px;
     text-align: center;
-    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
     transition: 0.3s;
 }
 
 input:focus {
-    border-color: #007bff;
-    box-shadow: 0px 0px 12px rgba(0, 123, 255, 0.5);
+    border-color: #00bcd4;
+    box-shadow: 0px 0px 12px rgba(0, 188, 212, 0.5);
     outline: none;
 }
 
-
+/* 🎨 Botón principal con efecto luminoso */
 button {
     padding: 12px 20px;
     border: none;
@@ -71,32 +75,44 @@ button {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 10px rgba(0, 140, 255, 0.5);
 }
 
 button:hover {
     background: linear-gradient(90deg, #0056b3, #003f8a);
     transform: scale(1.05);
+    box-shadow: 0px 0px 20px rgba(0, 140, 255, 0.7);
 }
 
+/* 🔄 Botón secundario (Volver al inicio) */
+.secondary-button {
+    background: linear-gradient(90deg, #28a745, #218838);
+}
 
+.secondary-button:hover {
+    background: linear-gradient(90deg, #1e7e34, #155724);
+}
+
+/* 📢 Botón de ayuda con efecto rojo */
+.help-button {
+    background: linear-gradient(90deg, #f39c12, #e67e22);
+}
+
+.help-button:hover {
+    background: linear-gradient(90deg, #d35400, #c0392b);
+}
+
+/* 🚨 Mensaje de error */
 .error-message {
     color: red;
     font-size: 14px;
     font-weight: bold;
     margin-top: 15px;
     display: none;
-    animation: shake 0.3s ease-in-out;
 }
 
-
+/* 🔄 Animaciones suaves */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes shake {
-    0% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    100% { transform: translateX(0); }
 }
