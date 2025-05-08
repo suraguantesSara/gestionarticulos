@@ -1,35 +1,37 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const passwordInput = document.getElementById("password");
-    const mensajeError = document.getElementById("mensajeError");
-    const correctPassword = "2025"; // 🔐 Contraseña definida
+    const urlAPI = "https://script.google.com/macros/s/AKfycbyzJHuKweTANZFCughYkDN3vheWicSBjCuGq3rJKb8I2bpHSmxD-lh12zsS3Gm6CA6N/exec";
+    const btnPDF = document.getElementById("btnPDF");
 
-    function verificarAcceso() {
-        const userPassword = passwordInput.value.trim();
+    function generarInforme() {
+        const nombre = document.getElementById("nombreUsuario").value;
+        const estado = document.getElementById("filtroEstado").value;
+        const tipo = document.getElementById("tipoFiltro").value;
+        const valor = document.getElementById("valorFiltro").value;
 
-        if (userPassword === correctPassword) {
-            // ✅ Redirigir a la página de registro
-            window.location.href = "registro.html";
-        } else {
-            // ❌ Mostrar mensaje de error
-            mensajeError.textContent = "❌ Contraseña incorrecta. Inténtalo nuevamente.";
-            mensajeError.style.display = "block";
-            passwordInput.value = "";
-            passwordInput.focus();
-        }
+        let url = `${urlAPI}?estado=${estado}`;
+        if (tipo !== "todos" && valor) url += `&${tipo}=${encodeURIComponent(valor)}`;
+
+        fetch(url).then(res => res.json()).then(data => {
+            document.getElementById("tablaResultados").innerHTML = data.length ? data.map(row => `<tr><td>${row.taller}</td><td>${row.pendiente}</td><td>${row.articulo}</td></tr>`).join("") : "<tr><td colspan='3'>No hay resultados.</td></tr>";
+            document.getElementById("resultadoInforme").style.display = "block";
+            btnPDF.style.display = data.length ? "block" : "none";
+        });
     }
 
-    function mostrarAviso() {
-        alert("⚠️ Si no recuerdas la contraseña, por favor contacta al encargado del sistema.");
+    function generarPDF() {
+        fetch("informe.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({})
+        }).then(res => res.blob()).then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Informe_Pedidos.pdf";
+            a.click();
+        });
     }
 
-    // 🎯 Detectar "Enter" para ingresar más rápido
-    passwordInput.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            verificarAcceso();
-        }
-    });
-
-    // 🔄 Asignar las funciones a los botones
-    window.verificarAcceso = verificarAcceso;
-    window.mostrarAviso = mostrarAviso;
+    window.generarInforme = generarInforme;
+    window.generarPDF = generarPDF;
 });
