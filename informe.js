@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 🛠 Construcción de la URL con filtros
         let urlConFiltros = `${urlAPI}?estado=${estadoSeleccionado}`;
-
         if (filtroSeleccionado !== "todos" && filtroValor !== "") {
             urlConFiltros += `&${filtroSeleccionado}=${encodeURIComponent(filtroValor)}`;
         }
@@ -55,6 +54,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 resultadoInforme.style.display = "block"; // 📊 Mostrar tabla de resultados
+
+                // 📄 Enviar los datos filtrados al PHP para generar el PDF
+                generarPDF(nombre, estadoSeleccionado, filtroSeleccionado, filtroValor, data);
             })
             .catch(error => {
                 console.error("❌ Error al obtener datos:", error);
@@ -62,6 +64,36 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    // 📄 Función para enviar datos al PHP y generar el PDF
+    function generarPDF(nombre, estado, tipoFiltro, valorFiltro, datos) {
+        fetch("generar_pdf.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nombreUsuario: nombre,
+                filtroEstado: estado,
+                tipoFiltro: tipoFiltro,
+                valorFiltro: valorFiltro,
+                datos: datos
+            })
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Informe_Pedidos.pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error("❌ Error al generar PDF:", error);
+            alert("❌ No se pudo generar el PDF. Inténtalo nuevamente.");
+        });
+    }
+
     // 🏷️ Asignar la función al botón
     window.generarInforme = generarInforme;
 });
+           
