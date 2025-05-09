@@ -16,13 +16,17 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
                 resultadoDiv.innerHTML = `<p style="color: orange;">${data.mensaje}</p>`;
             } else {
                 let table = "<table border='1'><tr>";
-                table += Object.keys(data[0]).map(key => `<th>${key}</th>`).join("");
+                table += "<th>Editar</th><th>B</th><th>C</th><th>N</th>"; // Nombres de las columnas deseadas
                 table += "</tr>";
 
                 data.forEach(row => {
                     table += "<tr>";
                     table += `<td><button onclick="seleccionarRemision('${row[0]}')">✏️ Editar</button></td>`;
-                    table += Object.values(row).map(value => `<td>${value}</td>`).join("");
+
+                    // Extraer solo las columnas específicas (b, c y n)
+                    let columnasDeseadas = [row[1], row[2], row[13]]; // Índices de las columnas correctos
+
+                    table += columnasDeseadas.map(value => `<td>${value}</td>`).join("");
                     table += "</tr>";
                 });
 
