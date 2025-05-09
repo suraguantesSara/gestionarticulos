@@ -10,18 +10,22 @@ $fecha_actual = date("d/m/Y H:i:s");
 // 🌐 Obtener datos desde Google Apps Script
 $url = "https://script.google.com/macros/s/AKfycbyQR8dNXMxbbf1quOtHrJ7JF0MPBN9DVmp1vwswMnauX_BMEdyesje2atpB1oTrPs0/exec?filtro=".urlencode($filtro)."&valor=".urlencode($valor);
 $response = file_get_contents($url);
+
+// 📌 Verificar respuesta del servidor
+if (!$response) {
+    die("❌ Error: No se pudo obtener datos desde el servidor.");
+}
+
 $data = json_decode($response, true);
 
-// 📌 Verificar si la respuesta es válida
-if (!$response || !is_array($data)) {
-    die("❌ Error: No se pudo obtener datos desde el servidor.");
+if (!is_array($data) || empty($data)) {
+    die("⚠ No hay registros disponibles para este filtro.");
 }
 
 // 📄 Clase personalizada para el PDF
 class PDF extends FPDF {
     function Header() {
-        // 🏢 Logo desde archivo local
-        $this->Image('logo.png', 10, 10, 40, 40, 'PNG');
+        $this->Image('logo.png', 15, 10, 40, 40, 'PNG'); // 🏢 Logo de empresa
 
         // 📌 Título del informe
         $this->SetFont('Arial', 'B', 16);
@@ -49,7 +53,7 @@ $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(270, 10, "INFORME DE INVENTARIO", 0, 1, 'C');
 $pdf->SetFont('Arial', '', 12);
 $pdf->Ln(5);
-$pdf->MultiCell(270, 6, "A continuación, se presenta el informe generado con base en los registros consultados en el sistema. Este documento refleja el estado actual de los artículos en inventario y su disponibilidad en los talleres correspondientes.", 0, 'J');
+$pdf->MultiCell(270, 6, "Este informe refleja la gestión de inventario basada en la consulta realizada. Se presentan los registros actuales con el estado de los artículos y su disponibilidad en los talleres correspondientes.", 0, 'J');
 $pdf->Ln(10);
 $pdf->SetFont('Arial', 'I', 10);
 $pdf->Cell(270, 6, "Fecha de generación: " . $fecha_actual, 0, 1, 'C');
@@ -67,18 +71,14 @@ $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', '', 10);
 
 // 📌 Validación de datos obtenidos
-if (empty($data)) {
-    $pdf->Cell(270, 10, "⚠ No se encontraron registros.", 1, 1, 'C');
-} else {
-    foreach ($data as $row) {
-        if (!is_array($row)) {
-            continue; // Saltar si la fila no es un array
-        }
-
-        $pdf->Cell(80, 10, $row['taller'] ?? 'N/A', 1, 0, 'C');
-        $pdf->Cell(80, 10, $row['pendiente'] ?? 'N/A', 1, 0, 'C');
-        $pdf->Cell(110, 10, $row['articulo'] ?? 'N/A', 1, 1, 'C');
+foreach ($data as $row) {
+    if (!is_array($row)) {
+        continue; // Saltar si la fila no es un array
     }
+
+    $pdf->Cell(80, 10, $row['taller'] ?? 'N/A', 1, 0, 'C');
+    $pdf->Cell(80, 10, $row['pendiente'] ?? 'N/A', 1, 0, 'C');
+    $pdf->Cell(110, 10, $row['articulo'] ?? 'N/A', 1, 1, 'C');
 }
 
 // 📜 Cierre del informe con agradecimiento
