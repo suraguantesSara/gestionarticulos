@@ -12,10 +12,15 @@ $url = "https://script.google.com/macros/s/AKfycbyQR8dNXMxbbf1quOtHrJ7JF0MPBN9DV
 $response = file_get_contents($url);
 $data = json_decode($response, true);
 
+// 📌 Verificar si la respuesta es válida
+if (!is_array($data)) {
+    die("❌ Error: La respuesta del servidor no es válida. Respuesta: " . $response);
+}
+
 // 📄 Clase personalizada para el PDF
 class PDF extends FPDF {
     function Header() {
-        // 🏢 Logo (carga desde archivo en el mismo directorio)
+        // 🏢 Logo desde archivo local
         $this->Image('logo.png', 10, 10, 40, 40, 'PNG');
 
         // 📌 Título del informe
@@ -58,24 +63,15 @@ $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', '', 10);
 
 // 📌 Validación de datos obtenidos
-if (!$data || isset($data['error'])) {
-    $pdf->Cell(270, 10, "❌ Error al obtener datos del servidor.", 1, 1, 'C');
-} elseif (isset($data['mensaje'])) {
-    $pdf->Cell(270, 10, "⚠ " . $data['mensaje'], 1, 1, 'C');
+if (empty($data)) {
+    $pdf->Cell(270, 10, "⚠ No se encontraron registros.", 1, 1, 'C');
 } else {
-    // 🏗 Construcción de la tabla con datos reales
     foreach ($data as $row) {
         $pdf->Cell(60, 10, $row['taller'], 1, 0, 'C');
         $pdf->Cell(60, 10, $row['pendiente'], 1, 0, 'C');
         $pdf->Cell(150, 10, $row['articulo'], 1, 1, 'C');
     }
 }
-
-// 🔚 Pie de página con información de contacto
-$pdf->Ln(10);
-$pdf->SetFont('Arial', 'I', 10);
-$pdf->Cell(270, 10, "Contacto: +57 310 123 4567 | Correo: info@suramericanaguantes.com", 0, 1, 'C');
-$pdf->Cell(270, 10, "Dirección: Palmira, Valle del Cauca, Colombia", 0, 1, 'C');
 
 // 📥 Generar y descargar el PDF
 $pdf->Output('D', 'Informe_Pedidos.pdf');
