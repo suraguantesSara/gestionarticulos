@@ -24,7 +24,7 @@ $datos = json_decode($response, true);
 class PDF extends FPDF {
     function Header() {
         // 🏢 Logo desde URL externa
-        $logoUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.facebook.com%2Fsuraguantescol%2F";
+        $logoUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.facebook.com%2Fsuraguantescol%2F&psig=AOvVaw0_taJY-tUsTPKFJes59QnX&ust=1746905924273000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLj4tOqRl40DFQAAAAAdAAAAABAE";
         $this->Image($logoUrl, 10, 10, 30, 30, 'PNG');
 
         // 📌 Datos de la empresa
