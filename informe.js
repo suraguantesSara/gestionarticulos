@@ -1,37 +1,34 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const urlAPI = "https://script.google.com/macros/s/AKfycbyzJHuKweTANZFCughYkDN3vheWicSBjCuGq3rJKb8I2bpHSmxD-lh12zsS3Gm6CA6N/exec";
-    const btnPDF = document.getElementById("btnPDF");
+document.getElementById("consultaForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    function generarInforme() {
-        const nombre = document.getElementById("nombreUsuario").value;
-        const estado = document.getElementById("filtroEstado").value;
-        const tipo = document.getElementById("tipoFiltro").value;
-        const valor = document.getElementById("valorFiltro").value;
+    let filtro = document.getElementById("filtro").value;
+    let valor = document.getElementById("valor").value;
 
-        let url = `${urlAPI}?estado=${estado}`;
-        if (tipo !== "todos" && valor) url += `&${tipo}=${encodeURIComponent(valor)}`;
+    fetch(`https://script.google.com/macros/s/AKfycbyQR8dNXMxbbf1quOtHrJ7JF0MPBN9DVmp1vwswMnauX_BMEdyesje2atpB1oTrPs0/exec?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`)
+        .then(response => response.json())
+        .then(data => {
+            let resultadoDiv = document.getElementById("resultado");
+            resultadoDiv.innerHTML = "";
 
-        fetch(url).then(res => res.json()).then(data => {
-            document.getElementById("tablaResultados").innerHTML = data.length ? data.map(row => `<tr><td>${row.taller}</td><td>${row.pendiente}</td><td>${row.articulo}</td></tr>`).join("") : "<tr><td colspan='3'>No hay resultados.</td></tr>";
-            document.getElementById("resultadoInforme").style.display = "block";
-            btnPDF.style.display = data.length ? "block" : "none";
-        });
-    }
+            if (data.error) {
+                resultadoDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
+            } else if (data.mensaje) {
+                resultadoDiv.innerHTML = `<p style="color: orange;">${data.mensaje}</p>`;
+            } else {
+                let table = "<table border='1'><tr>";
+                table += Object.keys(data[0]).map(key => `<th>${key}</th>`).join("");
+                table += "</tr>";
 
-    function generarPDF() {
-        fetch("informe.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({})
-        }).then(res => res.blob()).then(blob => {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "Informe_Pedidos.pdf";
-            a.click();
-        });
-    }
+                data.forEach(row => {
+                    table += "<tr>";
+                    table += `<td><button onclick="seleccionarRemision('${row[0]}')">✏️ Editar</button></td>`;
+                    table += Object.values(row).map(value => `<td>${value}</td>`).join("");
+                    table += "</tr>";
+                });
 
-    window.generarInforme = generarInforme;
-    window.generarPDF = generarPDF;
+                table += "</table>";
+                resultadoDiv.innerHTML = table;
+            }
+        })
+        .catch(error => console.error("Error en la consulta:", error));
 });
