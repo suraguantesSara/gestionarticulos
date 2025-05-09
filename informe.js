@@ -16,16 +16,16 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
                 resultadoDiv.innerHTML = `<p style="color: orange;">${data.mensaje}</p>`;
             } else {
                 let table = "<table border='1'><tr>";
-                table += "<th>B</th><th>C</th><th>N</th>"; // Solo las columnas deseadas
+                table += "<th>Artículo</th><th>Taller</th><th>Pendiente</th>"; // Nombres de columnas deseadas
                 table += "</tr>";
 
                 data.forEach(row => {
                     table += "<tr>";
-                    
-                    // Extraer solo las columnas específicas (b, c y n)
-                    let columnasDeseadas = [row[1], row[2], row[13]]; // Índices de las columnas correctos
 
+                    // Extraer solo las columnas específicas
+                    let columnasDeseadas = [row[1], row[2], row[13]]; // Índices correctos
                     table += columnasDeseadas.map(value => `<td>${value}</td>`).join("");
+
                     table += "</tr>";
                 });
 
@@ -36,10 +36,11 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
         .catch(error => console.error("Error en la consulta:", error));
 });
 
-document.getElementById("generarPDF").addEventListener("click", function() {
+// Generar PDF
+document.getElementById("btnPDF").addEventListener("click", function() {
     let filtro = document.getElementById("filtro").value;
     let valor = document.getElementById("valor").value;
-    let usuario = document.getElementById("usuario").value || "Desconocido"; // Si el usuario no está definido
+    let usuario = document.getElementById("usuario").value || "Desconocido";
 
     if (!filtro || !valor) {
         alert("❌ Debes seleccionar un filtro y valor antes de generar el PDF.");
@@ -51,10 +52,7 @@ document.getElementById("generarPDF").addEventListener("click", function() {
     window.open(pdfURL, "_blank"); // Abre el PDF en otra pestaña
 });
 
-// Asegurar que el botón de generar PDF está presente en el HTML
-document.addEventListener("DOMContentLoaded", function() {
-    let generarPDFBtn = document.getElementById("generarPDF");
-    if (!generarPDFBtn) {
-        console.error("El botón de generar PDF no se encuentra en el DOM. Verifica que existe en tu HTML.");
-    }
+// Volver al index.html
+document.getElementById("btnVolver").addEventListener("click", function() {
+    window.location.href = "index.html"; // Redirige a la página de inicio
 });
