@@ -3,57 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Generación de Informe</title>
-    <link rel="stylesheet" href="informe.css">
+    <title>Consulta de Inventario</title>
+    <link rel="stylesheet" href="consultas.css">
 </head>
 <body>
-
-    <div class="container">
-        <h1>📊 Generar Informe de Pedidos</h1>
-
-        <!-- 📝 Nombre del usuario -->
-        <label for="nombreUsuario">📝 Nombre:</label>
-        <input type="text" id="nombreUsuario" placeholder="Ingrese su nombre" required>
-
-        <!-- 📌 Filtro obligatorio por estado -->
-        <label for="filtroEstado">📌 Filtrar por estado:</label>
-        <select id="filtroEstado" required>
-            <option value="pendientes">Pendientes (1 en adelante)</option>
-            <option value="listos">Listos (0 o negativos)</option>
-        </select>
-
-        <!-- 🔎 Opcional: Filtrar por "Taller" o "Artículo" -->
-        <label for="tipoFiltro">🔎 Filtrar por:</label>
-        <select id="tipoFiltro">
-            <option value="todos">Todos</option>
-            <option value="taller">Taller</option>
+    <h2>Consulta de Inventario</h2>
+    
+    <form id="consultaForm">
+        <label for="usuario">Nombre:</label>
+        <input type="text" id="usuario" placeholder="Tu nombre aquí">
+        
+        <label for="filtro">Filtrar por:</label>
+        <select id="filtro">
+            <option value="remision">Remisión</option>
             <option value="articulo">Artículo</option>
+            <option value="taller">Taller</option>
+            <option value="fecha despacho">Fecha despacho</option>
         </select>
+        
+        <input type="text" id="valor" placeholder="Ingrese valor">
+        <button type="submit">Consultar</button>
+    </form>
 
-        <!-- 🔽 Campo dinámico según filtro -->
-        <input type="text" id="valorFiltro" placeholder="Escriba el nombre/tipo" style="display: none;">
-
-        <!-- 🎯 Botones -->
-        <button onclick="generarInforme()">📊 Consultar</button>
-        <button onclick="window.location.href='index.html';">🔙 Volver a Inicio</button>
-
-        <!-- 📌 Espacio donde se mostrarán los resultados -->
-        <div id="resultadoInforme" class="tabla-contenedor" style="display: none;">
-            <h2>📌 Resultados del Informe</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Taller</th>
-                        <th>Pendientes</th>
-                        <th>Artículo</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaResultados">
-                    <!-- 🔄 Aquí aparecerán los datos filtrados -->
-                </tbody>
-            </table>
-
-            <!-- 🖨 Botón para generar PDF después de ver resultados -->
+    <h2>📦 Registros encontrados</h2>
+    <table id="tablaResultados">
+        <thead>
+            <tr>
+                <th>Seleccionar</th>
+                <th>Remisión</th>
+                <th>Artículo</th>
+                
+            </tr>
+        </thead>
+        <tbody id="resultado">
+            <!-- Aquí se cargan los datos -->
+        </tbody>
+    </table>
             <button id="btnPDF" onclick="generarPDF()" style="display: none;">🖨 Generar Informe en PDF</button>
         </div>
     </div>
