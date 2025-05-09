@@ -1,7 +1,7 @@
 <?php
 require('fpdf186/fpdf.php');
 
-// 📌 URL de Google Apps Script
+// 📌 Obtener datos desde Google Apps Script
 $scriptUrl = "https://script.google.com/macros/s/AKfycbyzJHuKweTANZFCughYkDN3vheWicSBjCuGq3rJKb8I2bpHSmxD-lh12zsS3Gm6CA6N/exec";
 
 // 📌 Recibir datos del formulario
@@ -23,9 +23,8 @@ $datos = json_decode($response, true);
 // 🏢 Clase personalizada para el PDF
 class PDF extends FPDF {
     function Header() {
-        // 🏢 Logo desde URL externa
-        $logoUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.facebook.com%2Fsuraguantescol%2F&psig=AOvVaw0_taJY-tUsTPKFJes59QnX&ust=1746905924273000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLj4tOqRl40DFQAAAAAdAAAAABAE";
-        $this->Image($logoUrl, 10, 10, 30, 30, 'PNG');
+        // 🏢 Logo
+        $this->Image('logo.png', 10, 10, 30, 30, 'PNG'); // Asegúrate de que el archivo "logo.png" está en la misma carpeta
 
         // 📌 Datos de la empresa
         $this->SetFont('Arial', 'B', 14);
@@ -68,10 +67,7 @@ if (!empty($datos)) {
         $pdf->Cell(60, 10, $fila['pendiente'], 1, 0, 'C');
         $pdf->Cell(70, 10, $fila['articulo'], 1, 1, 'C');
     }
-} else {
-    $pdf->Cell(190, 10, "⚠️ No hay pedidos que cumplan con el filtro", 1, 1, 'C');
 }
 
-// 📥 Descargar el PDF
 $pdf->Output('D', 'Informe_Pedidos.pdf');
 ?>
