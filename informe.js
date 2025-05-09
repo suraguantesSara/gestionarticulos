@@ -10,33 +10,41 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
             let resultadoDiv = document.getElementById("resultado");
             resultadoDiv.innerHTML = "";
 
-            if (data.error) {
-                resultadoDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
-            } else if (data.mensaje) {
-                resultadoDiv.innerHTML = `<p style="color: orange;">${data.mensaje}</p>`;
-            } else {
-                let table = "<table border='1'><tr>";
-                table += "<th>Artículo</th><th>Taller</th><th>Pendiente</th>"; // Nombres de columnas deseadas
-                table += "</tr>";
-
-                data.forEach(row => {
-                    table += "<tr>";
-
-                    // Extraer solo las columnas específicas
-                    let columnasDeseadas = [row[1], row[2], row[13]]; // Índices correctos
-                    table += columnasDeseadas.map(value => `<td>${value}</td>`).join("");
-
-                    table += "</tr>";
-                });
-
-                table += "</table>";
-                resultadoDiv.innerHTML = table;
+            if (!Array.isArray(data)) {
+                resultadoDiv.innerHTML = `<p style="color: red;">❌ Error: Respuesta no válida del servidor.</p>`;
+                console.error("Error en la consulta:", data);
+                return;
             }
+
+            if (data.length === 0) {
+                resultadoDiv.innerHTML = `<p style="color: orange;">⚠ No se encontraron resultados.</p>`;
+                return;
+            }
+
+            let table = "<table border='1'><tr>";
+            table += "<th>B</th><th>C</th><th>N</th>"; // Columnas específicas
+            table += "</tr>";
+
+            data.forEach(row => {
+                table += "<tr>";
+
+                // Extraer solo las columnas específicas (2, 3 y 14)
+                let columnasDeseadas = [row[1], row[2], row[13]];
+
+                table += columnasDeseadas.map(value => `<td>${value}</td>`).join("");
+                table += "</tr>";
+            });
+
+            table += "</table>";
+            resultadoDiv.innerHTML = table;
         })
-        .catch(error => console.error("Error en la consulta:", error));
+        .catch(error => {
+            console.error("Error en la consulta:", error);
+            document.getElementById("resultado").innerHTML = `<p style="color: red;">❌ Error al obtener datos.</p>`;
+        });
 });
 
-// Generar PDF
+// 🖨 Generar PDF con datos correctos
 document.getElementById("btnPDF").addEventListener("click", function() {
     let filtro = document.getElementById("filtro").value;
     let valor = document.getElementById("valor").value;
@@ -52,7 +60,7 @@ document.getElementById("btnPDF").addEventListener("click", function() {
     window.open(pdfURL, "_blank"); // Abre el PDF en otra pestaña
 });
 
-// Volver al index.html
+// ⬅ Volver al index.html
 document.getElementById("btnVolver").addEventListener("click", function() {
     window.location.href = "index.html"; // Redirige a la página de inicio
 });
