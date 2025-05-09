@@ -16,13 +16,12 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
                 resultadoDiv.innerHTML = `<p style="color: orange;">${data.mensaje}</p>`;
             } else {
                 let table = "<table border='1'><tr>";
-                table += "<th>Editar</th><th>B</th><th>C</th><th>N</th>"; // Nombres de las columnas deseadas
+                table += "<th>B</th><th>C</th><th>N</th>"; // Solo las columnas deseadas
                 table += "</tr>";
 
                 data.forEach(row => {
                     table += "<tr>";
-                    table += `<td><button onclick="seleccionarRemision('${row[0]}')">✏️ Editar</button></td>`;
-
+                    
                     // Extraer solo las columnas específicas (b, c y n)
                     let columnasDeseadas = [row[1], row[2], row[13]]; // Índices de las columnas correctos
 
@@ -37,11 +36,6 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
         .catch(error => console.error("Error en la consulta:", error));
 });
 
-// Función para seleccionar una remisión en el formulario de entregas
-function seleccionarRemision(remision) {
-    document.getElementById("remisionEntrega").value = remision;
-}
-
 document.getElementById("generarPDF").addEventListener("click", function() {
     let filtro = document.getElementById("filtro").value;
     let valor = document.getElementById("valor").value;
@@ -55,4 +49,12 @@ document.getElementById("generarPDF").addEventListener("click", function() {
     let pdfURL = `informe.php?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}&usuario=${encodeURIComponent(usuario)}`;
     console.log("Generando PDF con URL:", pdfURL);
     window.open(pdfURL, "_blank"); // Abre el PDF en otra pestaña
+});
+
+// Asegurar que el botón de generar PDF está presente en el HTML
+document.addEventListener("DOMContentLoaded", function() {
+    let generarPDFBtn = document.getElementById("generarPDF");
+    if (!generarPDFBtn) {
+        console.error("El botón de generar PDF no se encuentra en el DOM. Verifica que existe en tu HTML.");
+    }
 });
