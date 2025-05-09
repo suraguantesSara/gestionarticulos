@@ -4,7 +4,7 @@ document.getElementById("consultaForm").addEventListener("submit", function(even
     let filtro = document.getElementById("filtro").value;
     let valor = document.getElementById("valor").value;
 
-    fetch(`https://script.google.com/macros/s/AKfycbyQR8dNXMxbbf1quOtHrJ7JF0MPBN9DVmp1vwswMnauX_BMEdyesje2atpB1oTrPs0/exec?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`)
+    fetch(`https://https://script.google.com/macros/s/AKfycbz_nzfXaFX3IFcoXGvVMTZtVQN2Eof5Q6am-vu38DdnGPm6GxhXRTf72jIBKgaV7nTm/exec?filtro=${encodeURIComponent(filtro)}&valor=${encodeURIComponent(valor)}`)
         .then(response => response.json())
         .then(data => {
             let resultadoDiv = document.getElementById("resultado");
