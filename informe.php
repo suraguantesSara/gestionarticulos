@@ -8,7 +8,7 @@ $usuario = $_GET['usuario'] ?? 'Desconocido';
 $fecha_actual = date("d/m/Y H:i:s");
 
 // 🌐 Obtener datos desde Google Apps Script
-$url = "https://script.google.com/macros/s/AKfycbyQR8dNXMxbbf1quOtHrJ7JF0MPBN9DVmp1vwswMnauX_BMEdyesje2atpB1oTrPs0/exec?filtro=".urlencode($filtro)."&valor=".urlencode($valor);
+$url = "https://script.google.com/macros/s/AKfycbwhKlZcghM9oOiJQMhZe83qOEMFTAnXWydtmFpCDeGlZ83npfvVEx_E_1O6OJN9XtNZ/exec?filtro=".urlencode($filtro)."&valor=".urlencode($valor);
 $response = file_get_contents($url);
 
 // 📌 Verificar respuesta del servidor
