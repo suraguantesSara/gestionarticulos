@@ -62,23 +62,23 @@ $pdf->Ln(10);
 $pdf->SetFillColor(28, 117, 188);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(80, 10, "Taller", 1, 0, 'C', true);
-$pdf->Cell(80, 10, "Pendientes", 1, 0, 'C', true);
-$pdf->Cell(110, 10, "Artículo", 1, 1, 'C', true);
+$pdf->Cell(80, 10, "B", 1, 0, 'C', true); // Columna 1 (B)
+$pdf->Cell(80, 10, "C", 1, 0, 'C', true); // Columna 2 (C)
+$pdf->Cell(110, 10, "N", 1, 1, 'C', true); // Columna 3 (N)
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', '', 10);
 
 // Recorrer los datos y generar las filas de la tabla
 foreach ($data as $row) {
-    // Verificar que los campos existen antes de acceder a ellos
-    $taller = isset($row['Taller']) ? $row['Taller'] : 'N/A';
-    $faltante = isset($row['Faltante a la fecha']) ? $row['Faltante a la fecha'] : 'N/A';
-    $articulo = isset($row['Articulo']) ? $row['Articulo'] : 'N/A';
+    // Extraer las columnas específicas (índices 1, 2 y 13)
+    $columna_b = isset($row[1]) ? $row[1] : 'N/A';
+    $columna_c = isset($row[2]) ? $row[2] : 'N/A';
+    $columna_n = isset($row[13]) ? $row[13] : 'N/A';
 
     // Imprimir cada fila
-    $pdf->Cell(80, 10, $taller, 1, 0, 'C');
-    $pdf->Cell(80, 10, $faltante, 1, 0, 'C');
-    $pdf->Cell(110, 10, $articulo, 1, 1, 'C');
+    $pdf->Cell(80, 10, $columna_b, 1, 0, 'C');
+    $pdf->Cell(80, 10, $columna_c, 1, 0, 'C');
+    $pdf->Cell(110, 10, $columna_n, 1, 1, 'C');
 }
 
 // Espaciado antes del pie de página
