@@ -89,9 +89,9 @@ $pdf->MultiCell(270, 6, utf8_decode("Este informe ha sido generado automáticame
 $pdf->Ln(10);
 
 $pdf->SetFont('Arial', 'I', 10);
-$pdf->Cell(270, 6, utf8_decode("📞 Contacto: +57 310 123 4567"), 0, 1, 'C');
-$pdf->Cell(270, 6, utf8_decode("📧 Correo: info@suramericanaguantes.com"), 0, 1, 'C');
-$pdf->Cell(270, 6, utf8_decode("📍 Dirección: Palmira, Valle del Cauca, Colombia"), 0, 1, 'C');
+$pdf->Cell(270, 6, utf8_decode("- Contacto: +57 310 123 4567"), 0, 1, 'C');
+$pdf->Cell(270, 6, utf8_decode("- Correo: info@suramericanaguantes.com"), 0, 1, 'C');
+$pdf->Cell(270, 6, utf8_decode("- Dirección: Palmira, Valle del Cauca, Colombia"), 0, 1, 'C');
 
 // Salida del PDF
 $pdf->Output('D', 'Informe_Inventario.pdf');
