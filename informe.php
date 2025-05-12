@@ -73,8 +73,8 @@ foreach ($data as $row) {
     }
 
    $pdf->Cell(80, 10, $row['Taller'] ?? 'N/A', 1, 0, 'C');
-   $pdf->Cell(110, 10, $row['Articulo'] ?? 'N/A', 1, 1, 'C');
    $pdf->Cell(80, 10, $row['Faltante a la fecha'] ?? 'N/A', 1, 0, 'C');
+   $pdf->Cell(110, 10, $row['Articulo'] ?? 'N/A', 1, 1, 'C');
 
 }
 
