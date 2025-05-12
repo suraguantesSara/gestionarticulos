@@ -72,9 +72,10 @@ foreach ($data as $row) {
         continue; // Saltar si la fila no es un array
     }
 
-    $pdf->Cell(80, 10, $row['taller'] ?? 'N/A', 1, 0, 'C');
-    $pdf->Cell(80, 10, $row['pendiente'] ?? 'N/A', 1, 0, 'C');
-    $pdf->Cell(110, 10, $row['articulo'] ?? 'N/A', 1, 1, 'C');
+   $pdf->Cell(80, 10, $row['Taller'] ?? 'N/A', 1, 0, 'C');
+   $pdf->Cell(110, 10, $row['Articulo'] ?? 'N/A', 1, 1, 'C');
+   $pdf->Cell(80, 10, $row['Faltante a la fecha'] ?? 'N/A', 1, 0, 'C');
+
 }
 
 
