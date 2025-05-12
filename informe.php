@@ -64,9 +64,9 @@ $pdf->Ln(10);
 $pdf->SetFillColor(28, 117, 188);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(80, 10, utf8_decode("B"), 1, 0, 'C', true);
-$pdf->Cell(80, 10, utf8_decode("C"), 1, 0, 'C', true);
-$pdf->Cell(110, 10, utf8_decode("N"), 1, 1, 'C', true);
+$pdf->Cell(80, 10, utf8_decode("Articulo"), 1, 0, 'C', true);
+$pdf->Cell(80, 10, utf8_decode("Taller"), 1, 0, 'C', true);
+$pdf->Cell(110, 10, utf8_decode("Pendiente"), 1, 1, 'C', true);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', '', 10);
 
@@ -76,9 +76,9 @@ foreach ($data as $row) {
     $columna_c = isset($row[2]) ? utf8_decode($row[2]) : 'N/A';
     $columna_n = isset($row[13]) ? utf8_decode($row[13]) : 'N/A';
 
-    $pdf->Cell(80, 10, $columna_b, 1, 0, 'Articulo');
-    $pdf->Cell(80, 10, $columna_c, 1, 0, 'Taller');
-    $pdf->Cell(110, 10, $columna_n, 1, 1, 'Pendiente');
+    $pdf->Cell(80, 10, $columna_b, 1, 0, 'C');
+    $pdf->Cell(80, 10, $columna_c, 1, 0, 'C');
+    $pdf->Cell(110, 10, $columna_n, 1, 1, 'C');
 }
 
 $pdf->Ln(10);
